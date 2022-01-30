@@ -131,3 +131,5 @@ CACHES = {
         'LOCATION': 'youtube-search-api',
     }
 }
+
+SECURE_SSL_REDIRECT = True
