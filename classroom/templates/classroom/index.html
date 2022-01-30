@@ -3,8 +3,8 @@
    <head>
       <link rel="preconnect" href="https://cdn.jsdelivr.net" />
       <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-      <link rel="preconnect" href="https://youtube-class-api.herokuapp.com" />
-      <link rel="dns-prefetch" href="https://youtube-class-api.herokuapp.com" />
+      <link rel="preconnect" href="https://unblocktube.herokuapp.com" />
+      <link rel="dns-prefetch" href="https://unblocktube.herokuapp.com" />
       <link rel="preconnect" href="https://i.ytimg.com" />
       <link rel="dns-prefetch" href="https://i.ytimg.com" />
       <link rel="preload" as="style" href="https://cdn.plyr.io/3.6.12/plyr.css" />
@@ -429,7 +429,7 @@
                } else {
                   if (query) {
                      $("#loader").show();
-                     URL = "https://youtube-class-api.herokuapp.com/youtube/";
+                     URL = "https://unblocktube.herokuapp.com/youtube/";
                      options = {
                         q: query,
                      };
@@ -442,7 +442,7 @@
                } else {
                   if (query) {
                      $("#loader").show();
-                     URL = "https://youtube-class-api.herokuapp.com/youtube/";
+                     URL = "https://unblocktube.herokuapp.com/youtube/";
                      options = {
                         q: query,
                      };
@@ -452,7 +452,7 @@
             } else {
                if (query) {
                   $("#loader").show();
-                  URL = "https://youtube-class-api.herokuapp.com/youtube/";
+                  URL = "https://unblocktube.herokuapp.com/youtube/";
                   options = {
                      q: query,
                   };
@@ -491,7 +491,7 @@
             }
          }
          function video_json(yt_id) {
-            d_URL = "https://youtube-class-api.herokuapp.com/youtube/details/?id=" + yt_id;
+            d_URL = "https://unblocktube.herokuapp.com/youtube/details/?id=" + yt_id;
             $.getJSON(d_URL, function (data) {
                $("#vid-title").html(data.title);
                $("#vid-views").html(data.viewCount.text.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
@@ -499,7 +499,7 @@
                $("#vid-cat").html(data.category);
                $("#vid-date").html(formatdate(data.publishDate));
             });
-            c_URL = "https://youtube-class-api.herokuapp.com/youtube/comments/?id=" + yt_id;
+            c_URL = "https://unblocktube.herokuapp.com/youtube/comments/?id=" + yt_id;
             $.getJSON(c_URL, function (data) {
                comments(data);
             });
@@ -538,7 +538,7 @@
                      var dur = item.duration;
                      var author = item.channel.name;
                      var views = item.viewCount.short;
-                     d_URL = "https://youtube-class-api.herokuapp.com/youtube/details/?id=" + vid;
+                     d_URL = "https://unblocktube.herokuapp.com/youtube/details/?id=" + vid;
                      $.getJSON(d_URL, function (data) {
                         if (data.category == "Gaming" || data.category == "People & Blogs") {
                            $("#search-results-json").append(`
@@ -690,7 +690,7 @@
             $("#vid-cat").html("");
             $("#vid-date").html("");
             $("#h1-key").css("cursor", "pointer");
-            $.getJSON("https://youtube-class-api.herokuapp.com/youtube/src/?id=" + id, function (dd) {
+            $.getJSON("https://unblocktube.herokuapp.com/youtube/src/?id=" + id, function (dd) {
                var str = JSON.stringify(dd).replace('[{"src":"', "").replace('"}]', "");
                iframe_url = str;
                $("#youtube-iframe").attr("src", iframe_url);
@@ -698,7 +698,7 @@
                track.kind = "captions";
                track.label = "English (ID=" + makeidk(5) + ")";
                track.srclang = "en";
-               track.src = "https://youtube-class-api.herokuapp.com/youtube/captions/?id=" + youtubeshareid;
+               track.src = "https://unblocktube.herokuapp.com/youtube/captions/?id=" + youtubeshareid;
                track.setAttribute('default', '');
                track.setAttribute('id', 'en-trans');
                document.getElementById("youtube-iframe").appendChild(track);
