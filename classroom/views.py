@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.views.decorators.cache import cache_page
+from django.views.decorators.cache import cache_page, never_cache
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import WebVTTFormatter
 from django.http import HttpResponse
@@ -48,7 +48,7 @@ def YoutubeAdvancedSearchJSON(request):
             return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
-@cache_page(60 * 60 * 24)
+@never_cache
 def YoutubeGetVideoSRC(request):
     if request.method == 'GET':
         yo_id = request.GET.get('id')

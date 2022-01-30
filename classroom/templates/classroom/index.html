@@ -381,9 +381,6 @@
                         <h2><span id="messageload">Loading</span><span class="dots"><span>.</span><span>.</span><span>.</span></span></h2>
                      </center>
                      <video src="" id="youtube-iframe" controls autoplay loop></video>
-                     <div id="youtube-iframe2" style="display:none">
-                        <div id="player2" data-plyr-provider="youtube" data-plyr-embed-id="cdwal5Kw3Fc"></div>
-                     </div>
                   </div>
                   <center>
                      <p class="m-10 yt-controls" style="display: none;">
@@ -746,12 +743,6 @@
             document.dispatchEvent(new KeyboardEvent("keydown", { key: key }));
          }
          new Plyr("#youtube-iframe", {
-            captions: {
-               active: true,
-               update:true
-            }
-         });
-         new Plyr("#player2", {
             captions: {
                active: true,
                update:true
