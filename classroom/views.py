@@ -64,10 +64,18 @@ def YoutubeGetVideoTrack(request):
     if request.method == 'GET':
         yo_id = request.GET.get('id')
         if yo_id:
-            transcript = YouTubeTranscriptApi.get_transcript(yo_id)
-            formatter = WebVTTFormatter()
-            json_formatted = formatter.format_transcript(transcript)
-            return HttpResponse(json_formatted, content_type="text/vtt")
+            try:
+                transcript = YouTubeTranscriptApi.get_transcript(yo_id)
+                formatter = WebVTTFormatter()
+                json_formatted = formatter.format_transcript(transcript)
+                return HttpResponse(json_formatted, content_type="text/vtt")
+            except:
+                json_formatted = """WEBVTT
+
+00:00:00.000 --> 00:00:00.001
+Loading...
+                """
+                return HttpResponse(json_formatted, content_type="text/vtt")
         else:
             return JsonResponse([{'Error': 'No Query'}], safe=False)
 
