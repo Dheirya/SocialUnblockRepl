@@ -1,5 +1,5 @@
 <!DOCTYPE html>{% load cache %}
-{% cache None index_html %}
+{% cache None index-main2 %}
 <html oncontextmenu="return false">
    <head>
       <link rel="preconnect" href="https://cdn.jsdelivr.net" />
@@ -156,6 +156,12 @@
             border-bottom-right-radius: 10px !important;
          }
          #youtube-iframe {
+            padding-top: 5px;
+            padding-left: 5px;
+            width: 920px;
+            height: 518px;
+         }
+         #youtube-iframe2 {
             padding-top: 5px;
             padding-left: 5px;
             width: 920px;
@@ -332,23 +338,65 @@
             background: url("https://res.cloudinary.com/mjkui/image/upload/v1643507360/youtube-new-logo-11549681567deobxciy2e-removebg-preview_z7m6uw.png") 99% 15% no-repeat, linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)) !important;
             background-size: 40px auto, auto !important;
          }
-         @keyframes dots-1 { from { opacity: 0; } 25% { opacity: 1; } }
-         @keyframes dots-2 { from { opacity: 0; } 50% { opacity: 1; } }
-         @keyframes dots-3 { from { opacity: 0; } 75% { opacity: 1; } }
-         @-webkit-keyframes dots-1 { from { opacity: 0; } 25% { opacity: 1; } }
-         @-webkit-keyframes dots-2 { from { opacity: 0; } 50% { opacity: 1; } }
-         @-webkit-keyframes dots-3 { from { opacity: 0; } 75% { opacity: 1; } }
+         @keyframes dots-1 {
+            from {
+               opacity: 0;
+            }
+            25% {
+               opacity: 1;
+            }
+         }
+         @keyframes dots-2 {
+            from {
+               opacity: 0;
+            }
+            50% {
+               opacity: 1;
+            }
+         }
+         @keyframes dots-3 {
+            from {
+               opacity: 0;
+            }
+            75% {
+               opacity: 1;
+            }
+         }
+         @-webkit-keyframes dots-1 {
+            from {
+               opacity: 0;
+            }
+            25% {
+               opacity: 1;
+            }
+         }
+         @-webkit-keyframes dots-2 {
+            from {
+               opacity: 0;
+            }
+            50% {
+               opacity: 1;
+            }
+         }
+         @-webkit-keyframes dots-3 {
+            from {
+               opacity: 0;
+            }
+            75% {
+               opacity: 1;
+            }
+         }
          .dots span {
-             animation: dots-1 1s infinite steps(1);
-             -webkit-animation: dots-1 1s infinite steps(1);
+            animation: dots-1 1s infinite steps(1);
+            -webkit-animation: dots-1 1s infinite steps(1);
          }
          .dots span:first-child + span {
-             animation-name: dots-2;
-             -webkit-animation-name: dots-2;
+            animation-name: dots-2;
+            -webkit-animation-name: dots-2;
          }
          .dots span:first-child + span + span {
-             animation-name: dots-3;
-             -webkit-animation-name: dots-3;
+            animation-name: dots-3;
+            -webkit-animation-name: dots-3;
          }
       </style>
       <link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css" />
@@ -375,15 +423,27 @@
                <div style="flex: 1;">
                   <div id="video-player" style="display: none;">
                      <center style="margin-top: 150px;" id="loader-youtube">
-                        <img id="loader-img-video" style="margin-top: 0px;" src="https://res.cloudinary.com/mjkui/image/upload/v1643248327/ezgif-6-d26e9f87c2-stp3gu-unscreen_zoxkdr.gif"/>
-                        <h2><span id="messageload">Loading</span><span class="dots"><span>.</span><span>.</span><span>.</span></span></h2>
+                        <img id="loader-img-video" style="margin-top: 0px;" src="https://res.cloudinary.com/mjkui/image/upload/v1643248327/ezgif-6-d26e9f87c2-stp3gu-unscreen_zoxkdr.gif" />
+                        <h2>
+                           <span id="messageload">Loading</span><span class="dots"><span>.</span><span>.</span><span>.</span></span>
+                        </h2>
                      </center>
                      <video src="" id="youtube-iframe" controls autoplay loop preload="auto"></video>
+                     <iframe id="youtube-iframe2" src="" title="YouTube Video Player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                   </div>
                   <center>
                      <p class="m-10 yt-controls" style="display: none;">
                         <button data-tippy-content="Copy Share URL" id="share" class="st-btn controls-btn" onclick="sharevideo()" style="border-radius: 10px;">Share Video</button>
                         <button class="st-btn controls-btn" onclick="keyboard('s')" style="border-radius: 10px;">Change Video</button>
+                        <button
+                           id="embedvidretry"
+                           data-tippy-content="Press this button if there is an error in youtube embedding. An error example is 'Video unavailable'"
+                           class="st-btn controls-btn"
+                           onclick="retryvid()"
+                           style="display: none; border-radius: 10px;"
+                        >
+                           Retry Unavailable Youtube Video
+                        </button>
                      </p>
                   </center>
                </div>
@@ -406,25 +466,26 @@
       </div>
       <script src="https://cdn.jsdelivr.net/gh/Dheirya/Youtube-Unblocked/main.new.js"></script>
       <script>
-         document.onkeydown = function(e) {
-           if(event.keyCode == 123) {
-              return false;
-           }
-           if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
-              return false;
-           }
-           if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
-              return false;
-           }
-           if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
-              return false;
-           }
-           if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-              return false;
-           }
+         document.onkeydown = function (e) {
+            if (event.keyCode == 123) {
+               return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == "I".charCodeAt(0)) {
+               return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == "C".charCodeAt(0)) {
+               return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == "J".charCodeAt(0)) {
+               return false;
+            }
+            if (e.ctrlKey && e.keyCode == "U".charCodeAt(0)) {
+               return false;
+            }
          };
          var query, key, URL;
          var tries, loadedvideo;
+         var cat;
          var options;
          var typingTimer;
          var youtubeshareid;
@@ -463,11 +524,12 @@
             if (query.includes("youtube.com/watch?v=")) {
                if (query.split("/watch?v=")[1]) {
                   tries = 0;
-                  youtubeurl(query.split("/watch?v=")[1]);
+                  secretembed = false;
+                  youtubeurl(query.split("/watch?v=")[1], secretembed);
                } else {
                   if (query) {
                      $("#loader").show();
-                     URL = "https://unblocktube.herokuapp.com/youtube/";
+                     URL = "https://127.0.0.1:8000/youtube/";
                      options = {
                         q: query,
                      };
@@ -477,11 +539,12 @@
             } else if (query.includes("youtu.be/")) {
                if (query.split("youtu.be/")[1]) {
                   tries = 0;
-                  youtubeurl(query.split("youtu.be/")[1]);
+                  secretembed = false;
+                  youtubeurl(query.split("youtu.be/")[1], secretembed);
                } else {
                   if (query) {
                      $("#loader").show();
-                     URL = "https://unblocktube.herokuapp.com/youtube/";
+                     URL = "https://127.0.0.1:8000/youtube/";
                      options = {
                         q: query,
                      };
@@ -491,7 +554,7 @@
             } else {
                if (query) {
                   $("#loader").show();
-                  URL = "https://unblocktube.herokuapp.com/youtube/";
+                  URL = "https://127.0.0.1:8000/youtube/";
                   options = {
                      q: query,
                   };
@@ -529,20 +592,6 @@
                return month[date.getMonth()] + " " + day + ", " + date.getFullYear();
             }
          }
-         function video_json(yt_id) {
-            d_URL = "https://unblocktube.herokuapp.com/youtube/details/?id=" + yt_id;
-            $.getJSON(d_URL, function (data) {
-               $("#vid-title").html(data.title);
-               $("#vid-views").html(data.viewCount.text.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-               $("#vid-name").html(data.channel.name);
-               $("#vid-cat").html(data.category);
-               $("#vid-date").html(formatdate(data.publishDate));
-            });
-            c_URL = "https://unblocktube.herokuapp.com/youtube/comments/?id=" + yt_id;
-            $.getJSON(c_URL, function (data) {
-               comments(data);
-            });
-         }
          function comments(data) {
             if (data.error) {
                $("#comment-section").hide();
@@ -577,9 +626,9 @@
                      var dur = item.duration;
                      var author = item.channel.name;
                      var views = item.viewCount.short;
-                     d_URL = "https://unblocktube.herokuapp.com/youtube/details/?id=" + vid;
+                     d_URL = "https://127.0.0.1:8000/youtube/details/?id=" + vid;
                      $.getJSON(d_URL, function (data) {
-                        if (data.category == "Gaming" || data.category == "People & Blogs") {
+                        if (data.category == "Gaming" || data.category == "People & Blogs" || data.category == "Music") {
                            $("#search-results-json").append(`
                               <article class="item" data-key="${vid}">
                                 <div class="img-container">
@@ -621,7 +670,8 @@
          $("#search-results").on("click", "article", function () {
             var id = $(this).attr("data-key");
             tries = 0;
-            youtubeurl(id);
+            secretembed = false;
+            youtubeurl(id, secretembed);
          });
          document.addEventListener("keydown", function (event) {
             if ($("#youtube-url").is(":focus")) {
@@ -630,6 +680,7 @@
                   query = $("#youtube-url").val();
                   $("#en-trans").remove();
                   $("#youtube-iframe").attr("src", "");
+                  $("#youtube-iframe2").attr("src", "");
                   $(".controls").show();
                   $("#video-player").hide();
                   $(".yt-controls").hide();
@@ -702,25 +753,31 @@
          }
          if (url.searchParams.get("video")) {
             tries = 0;
-            youtubeurl(url.searchParams.get("video"));
+            secretembed = false;
+            youtubeurl(url.searchParams.get("video"), secretembed);
          } else {
             $(".yt-controls").hide();
          }
          function makeidk(length) {
-            var result           = '';
-            var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var result = "";
+            var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             var charactersLength = characters.length;
-            for ( var i = 0; i < length; i++ ) {
+            for (var i = 0; i < length; i++) {
                result += characters.charAt(Math.floor(Math.random() * charactersLength));
             }
             return result;
          }
-         function youtubeurl(id) {
+         function retryvid() {
+            secretembed = true;
+            youtubeurl(youtubeshareid, secretembed);
+         }
+         function youtubeurl(id, secretembed) {
             loadedvideo = false;
             youtubeshareid = id;
-            $("#messageload").html('Getting MP4 File');
+            $("#messageload").html("Getting MP4 File");
             $("#video-player").css("background-color", "#a3c2b2");
             $("#youtube-iframe").hide();
+            $("#youtube-iframe2").hide();
             $("#loader-youtube").show();
             $("#search-results").hide();
             $(".yt-controls").show();
@@ -733,46 +790,114 @@
             $("#vid-cat").html("");
             $("#vid-date").html("");
             $("#h1-key").css("cursor", "pointer");
-            $.getJSON("https://unblocktube.herokuapp.com/youtube/src/?id=" + id, function (dd) {
-               var str = JSON.stringify(dd).replace('[{"src":"', "").replace('"}]', "");
-               iframe_url = str;
-               $("#youtube-iframe").attr("src", iframe_url);
-               document.getElementById("youtube-iframe").addEventListener('error', function(evt) {
-                  if(!loadedvideo){
-                     if(tries < 3){
-                        $("#messageload").html('Retrying URL...');
-                        console.log('Retrying...');
-                        tries += 1;
-                        youtubeurl(youtubeshareid);
-                     }else{
-                        $("#messageload").html('Whoops! Our bots are confused! Try another video!');
-                        $(".dots").hide();
-                        $("#loader-img-video").hide();
-                     }
+            d_URL = "https://127.0.0.1:8000/youtube/details/?id=" + youtubeshareid;
+            $.getJSON(d_URL, function (data) {
+               $("#vid-title").html(data.title);
+               $("#vid-views").html(data.viewCount.text.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+               $("#vid-name").html(data.channel.name);
+               $("#vid-cat").html(data.category);
+               $("#vid-date").html(formatdate(data.publishDate));
+               if (data.category == "Gaming" || data.category == "People & Blogs" || data.category == "Music") {
+                  $("#embedvidretry").hide();
+                  $.getJSON("https://127.0.0.1:8000/youtube/src/?id=" + id, function (dd) {
+                     var str = JSON.stringify(dd).replace('[{"src":"', "").replace('"}]', "");
+                     iframe_url = str;
+                     $("#youtube-iframe").attr("src", iframe_url);
+                     document.getElementById("youtube-iframe").addEventListener("error", function (evt) {
+                        if ($("#youtube-iframe").attr("src")) {
+                           if (!loadedvideo) {
+                              if (tries < 3) {
+                                 $("#messageload").html("Retrying URL...");
+                                 tries += 1;
+                                 secretembed = false;
+                                 youtubeurl(youtubeshareid, secretembed);
+                              } else {
+                                 $("#messageload").html("Whoops! Our bots are confused! Try another video!");
+                                 $(".dots").hide();
+                                 $("#loader-img-video").hide();
+                              }
+                           }
+                        }
+                     });
+                     $("#messageload").html("Loading Video File & Captions");
+                     track = document.createElement("track");
+                     track.kind = "captions";
+                     track.label = "English (ID=" + makeidk(5) + ")";
+                     track.srclang = "en";
+                     track.src = "https://127.0.0.1:8000/youtube/captions/?id=" + youtubeshareid;
+                     track.setAttribute("default", "");
+                     track.setAttribute("id", "en-trans");
+                     document.getElementById("youtube-iframe").appendChild(track);
+                     $("#youtube-iframe").on("loadeddata", function () {
+                        $("#video-player").css("background-color", "");
+                        $("#loader-youtube").hide();
+                        $("#youtube-iframe").show();
+                        loadedvideo = true;
+                     });
+                  }).fail(function () {
+                     var searchParams = new URLSearchParams(window.location.search);
+                     searchParams.set("video", youtubeshareid);
+                     var newRelativePathQuery = window.location.pathname + "?" + searchParams.toString();
+                     history.pushState(null, "", newRelativePathQuery);
+                     $("#messageload").html("Getting Video File Failed - Try Reloading This Site");
+                  });
+               } else {
+                  $("#embedvidretry").hide();
+                  if (secretembed) {
+                     $.getJSON("https://127.0.0.1:8000/youtube/src/?id=" + id, function (dd) {
+                        var str = JSON.stringify(dd).replace('[{"src":"', "").replace('"}]', "");
+                        iframe_url = str;
+                        $("#youtube-iframe").attr("src", iframe_url);
+                        document.getElementById("youtube-iframe").addEventListener("error", function (evt) {
+                           if ($("#youtube-iframe").attr("src")) {
+                              if (!loadedvideo) {
+                                 if (tries < 3) {
+                                    $("#messageload").html("Retrying URL...");
+                                    tries += 1;
+                                    secretembed = false;
+                                    youtubeurl(youtubeshareid, secretembed);
+                                 } else {
+                                    $("#messageload").html("Whoops! Our bots are confused! Try another video!");
+                                    $(".dots").hide();
+                                    $("#loader-img-video").hide();
+                                 }
+                              }
+                           }
+                        });
+                        $("#messageload").html("Loading Video File & Captions");
+                        track = document.createElement("track");
+                        track.kind = "captions";
+                        track.label = "English (ID=" + makeidk(5) + ")";
+                        track.srclang = "en";
+                        track.src = "https://127.0.0.1:8000/youtube/captions/?id=" + youtubeshareid;
+                        track.setAttribute("default", "");
+                        track.setAttribute("id", "en-trans");
+                        document.getElementById("youtube-iframe").appendChild(track);
+                        $("#youtube-iframe").on("loadeddata", function () {
+                           $("#video-player").css("background-color", "");
+                           $("#loader-youtube").hide();
+                           $("#youtube-iframe").show();
+                           loadedvideo = true;
+                        });
+                     }).fail(function () {
+                        var searchParams = new URLSearchParams(window.location.search);
+                        searchParams.set("video", youtubeshareid);
+                        var newRelativePathQuery = window.location.pathname + "?" + searchParams.toString();
+                        history.pushState(null, "", newRelativePathQuery);
+                        $("#messageload").html("Getting Video File Failed - Try Reloading This Site");
+                     });
+                  } else {
+                     $("#video-player").css("background-color", "");
+                     $("#loader-youtube").hide();
+                     $("#youtube-iframe").hide();
+                     $("#youtube-iframe2").show();
+                     $("#youtube-iframe2").attr("src", "https://www.youtube-nocookie.com/embed/" + youtubeshareid + "?autoplay=1");
                   }
-               });
-               $("#messageload").html('Loading Video File & Captions');
-               track = document.createElement("track");
-               track.kind = "captions";
-               track.label = "English (ID=" + makeidk(5) + ")";
-               track.srclang = "en";
-               track.src = "https://unblocktube.herokuapp.com/youtube/captions/?id=" + youtubeshareid;
-               track.setAttribute('default', '');
-               track.setAttribute('id', 'en-trans');
-               document.getElementById("youtube-iframe").appendChild(track);
-               $("#youtube-iframe").on("loadeddata", function () {
-                  $("#video-player").css("background-color", "");
-                  $("#loader-youtube").hide();
-                  $("#youtube-iframe").show();
-                  loadedvideo = true;
-               });
-               video_json(id);
-            }).fail(function () {
-               var searchParams = new URLSearchParams(window.location.search);
-               searchParams.set("video", youtubeshareid);
-               var newRelativePathQuery = window.location.pathname + "?" + searchParams.toString();
-               history.pushState(null, "", newRelativePathQuery);
-               $("#messageload").html('Getting Video File Failed - Try Reloading This Site');
+               }
+            });
+            c_URL = "https://127.0.0.1:8000/youtube/comments/?id=" + youtubeshareid;
+            $.getJSON(c_URL, function (data) {
+               comments(data);
             });
          }
          function keyboard(key) {
@@ -781,11 +906,11 @@
          new Plyr("#youtube-iframe", {
             captions: {
                active: true,
-               update:true
+               update: true,
             },
             fullscreen: {
-               enabled: false
-            }
+               enabled: false,
+            },
          });
       </script>
       <script async defer src="https://cdn.jsdelivr.net/gh/aFarkas/lazysizes/lazysizes.min.js"></script>
