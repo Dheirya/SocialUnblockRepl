@@ -4,6 +4,7 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import WebVTTFormatter
 from django.http import HttpResponse
 from youtubesearchpython import *
+from django.shortcuts import redirect
 from django.shortcuts import render
 import uyts
 import vimeo
@@ -33,16 +34,21 @@ def YoutubeSearchJSON(request):
             return render(request, 'classroom/index.html')
 
 
-@cache_page(60 * 5)
+@cache_page(60 * 60 * 6)
 def YoutubeAdvancedSearchJSON(request):
     if request.method == 'GET':
         query = request.GET.get('q')
+        number = int(request.GET.get('number')) - 1
         if query:
             if request.GET.get('minify'):
                 search = VideosSearch(query, limit=500)
+                for _ in range(number):
+                    search.next()
                 return JsonResponse(search.result(), safe=False, json_dumps_params={'indent': 2})
             else:
                 search = VideosSearch(query, limit=500)
+                for _ in range(number):
+                    search.next()
                 return JsonResponse(search.result(), safe=False)
         else:
             return JsonResponse([{'Error': 'No Query'}], safe=False)
@@ -54,7 +60,10 @@ def YoutubeGetVideoSRC(request):
         yo_id = request.GET.get('id')
         if yo_id:
             youtube = pytube.YouTube('https://youtube.com/watch?v=' + yo_id)
-            return JsonResponse([{'src': youtube.streams.get_highest_resolution().url}], safe=False, json_dumps_params={'indent': 2})
+            if request.GET.get('redirect'):
+                return redirect(youtube.streams.get_highest_resolution().url)
+            else:
+                return JsonResponse([{'src': youtube.streams.get_highest_resolution().url}], safe=False)
         else:
             return JsonResponse([{'Error': 'No Query'}], safe=False)
 
@@ -80,7 +89,7 @@ Loading...
             return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
-@cache_page(60 * 5)
+@cache_page(60 * 60 * 6)
 def YoutubeVideoDetailJSON(request):
     if request.method == 'GET':
         youtube_id = request.GET.get('id')
@@ -101,7 +110,7 @@ def YoutubeVideoDetailJSON(request):
             return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
-@cache_page(60 * 5)
+@cache_page(60 * 60 * 6)
 def YoutubeUserVideosDetailJSON(request):
     if request.method == 'GET':
         youtube_id = request.GET.get('id')
@@ -143,7 +152,7 @@ def YoutubeCommentsSearchJSON(request):
             return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
-@cache_page(60 * 5)
+@cache_page(60 * 60 * 6)
 def VimeoSearchJSON(request):
     if request.method == 'GET':
         query = request.GET.get('q')
@@ -167,7 +176,7 @@ def VimeoSearchJSON(request):
             return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
-@cache_page(60 * 5)
+@cache_page(60 * 60 * 6)
 def DailyMotionSearchJSON(request):
     if request.method == 'GET':
         query = request.GET.get('q')
