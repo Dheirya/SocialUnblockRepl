@@ -800,7 +800,7 @@
                $("#vid-name").html(data.channel.name);
                $("#vid-cat").html(data.category);
                $("#vid-date").html(formatdate(data.publishDate));
-               if (data.category == "XYZ Gaming" || data.category == "XYZ People & Blogs" || data.category == "XYZ Music") {
+               if (data.category == "Gaming" || data.category == "People & Blogs" || data.category == "Music") {
                   $("#embedvidretry").hide();
                   $.getJSON("https://unblocktube.herokuapp.com/youtube/src/?id=" + id, function (dd) {
                      var str = JSON.stringify(dd).replace('[{"src":"', "").replace('"}]', "");
