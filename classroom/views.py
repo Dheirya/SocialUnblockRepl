@@ -10,6 +10,7 @@ import uyts
 import vimeo
 import requests
 import pytube
+import json
 
 
 v = vimeo.VimeoClient(
@@ -89,6 +90,21 @@ Loading...
             return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
+@cache_page(60 * 60 * 24)
+def GoogleSearchAPI(request):
+    if request.method == 'GET':
+        query = request.GET.get('q')
+        if query:
+            search = requests.get('https://suggestqueries.google.com/complete/search?client=safari&q=' + query)
+            json_search = search.text
+            firstDelPos = json_search.find(',{"k"')
+            secondDelPos = json_search.find('"}')
+            stringAfterReplace = json_search.replace(json_search[firstDelPos + 1:secondDelPos], "").replace(',"}', '')
+            return JsonResponse(json.loads(stringAfterReplace), safe=False, json_dumps_params={'indent': 2})
+        else:
+            return JsonResponse([{'Error': 'No Query'}], safe=False)
+
+
 @cache_page(60 * 60 * 6)
 def YoutubeVideoDetailJSON(request):
     if request.method == 'GET':
@@ -138,13 +154,13 @@ def YoutubeCommentsSearchJSON(request):
         if youtube_id:
             if request.GET.get('minify'):
                 try:
-                    comments = requests.get('https://www.googleapis.com/youtube/v3/commentThreads?key=AIzaSyDFO7M1HRjsSIuovZkKoexorn4_SDswAdk&textFormat=plainText&part=snippet&maxResults=50&order=relevance&videoId=' + youtube_id)
+                    comments = requests.get('https://www.googleapis.com/youtube/v3/commentThreads?key=AIzaSyDFO7M1HRjsSIuovZkKoexorn4_SDswAdk&textFormat=plainText&part=snippet&maxResults=75&order=relevance&videoId=' + youtube_id)
                     return JsonResponse(comments.json(), safe=False, json_dumps_params={'indent': 2})
                 except:
                     return JsonResponse([{'Error': 'No Comments'}], safe=False)
             else:
                 try:
-                    comments = requests.get('https://www.googleapis.com/youtube/v3/commentThreads?key=AIzaSyDFO7M1HRjsSIuovZkKoexorn4_SDswAdk&textFormat=plainText&part=snippet&maxResults=50&order=relevance&videoId=' + youtube_id)
+                    comments = requests.get('https://www.googleapis.com/youtube/v3/commentThreads?key=AIzaSyDFO7M1HRjsSIuovZkKoexorn4_SDswAdk&textFormat=plainText&part=snippet&maxResults=75&order=relevance&videoId=' + youtube_id)
                     return JsonResponse(comments.json(), safe=False)
                 except:
                     return JsonResponse([{'Error': 'No Comments'}], safe=False)
