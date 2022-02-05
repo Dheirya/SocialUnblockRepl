@@ -11,5 +11,6 @@ urlpatterns = [
     path('youtube/channel/', views.YoutubeUserVideosDetailJSON, name='youtube-channel'),
     path('youtube/src/', views.YoutubeGetVideoSRC, name='youtube-src'),
     path('youtube/captions/', views.YoutubeGetVideoTrack, name='youtube-caption'),
-    path('google/', views.GoogleSearchAPI, name='google')
+    path('google/', views.GoogleSearchAPI, name='google'),
+    path('twitter/', views.TwitterSearchJSON, name='twitter-search')
 ]

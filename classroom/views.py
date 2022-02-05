@@ -11,6 +11,7 @@ import vimeo
 import requests
 import pytube
 import json
+import twint
 
 
 v = vimeo.VimeoClient(
@@ -214,3 +215,19 @@ def DailyMotionSearchJSON(request):
                     return JsonResponse(search.json(), safe=False)
         else:
             return JsonResponse([{'Error': 'No Query'}], safe=False)
+
+
+@cache_page(60 * 60 * 24)
+def TwitterSearchJSON(request):
+    if request.method == 'GET':
+        query = request.GET.get('q')
+        c = twint.Config()
+        c.Search = query
+        c.Limit = 75
+        c.Pandas = True
+        c.Popular_tweets = True
+        c.Min_likes = 100
+        twint.run.Search(c)
+        df = twint.storage.panda.Tweets_df
+        djson = df.to_json(orient='table')
+        return HttpResponse(djson, content_type='application/json')
