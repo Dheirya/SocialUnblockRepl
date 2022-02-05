@@ -519,7 +519,7 @@
                   if (!infiniteloading) {
                      $("#loader-json").show();
                      infiniteloading = true;
-                     URL = "http://localhost:8000/youtube/";
+                     URL = "https://unblocktube.herokuapp.com/youtube/";
                      options = {
                         q: query,
                         number: numberloading,
@@ -558,7 +558,7 @@
                } else {
                   if (query) {
                      $("#loader").show();
-                     URL = "http://localhost:8000/youtube/";
+                     URL = "https://unblocktube.herokuapp.com/youtube/";
                      options = {
                         q: query,
                         number: 1,
@@ -575,7 +575,7 @@
                } else {
                   if (query) {
                      $("#loader").show();
-                     URL = "http://localhost:8000/youtube/";
+                     URL = "https://unblocktube.herokuapp.com/youtube/";
                      options = {
                         q: query,
                         number: 1,
@@ -587,7 +587,7 @@
             } else {
                if (query) {
                   $("#loader").show();
-                  URL = "http://localhost:8000/youtube/";
+                  URL = "https://unblocktube.herokuapp.com/youtube/";
                   options = {
                      q: query,
                      number: 1,
@@ -661,7 +661,7 @@
                      var dur = item.duration;
                      var author = item.channel.name;
                      var views = item.viewCount.short;
-                     d_URL = "http://localhost:8000/youtube/details/?id=" + vid;
+                     d_URL = "https://unblocktube.herokuapp.com/youtube/details/?id=" + vid;
                      $.getJSON(d_URL, function (data) {
                         if (data.category == "Gaming" || data.category == "People & Blogs" || data.category == "Music") {
                            $("#search-results-json").append(`
@@ -835,7 +835,7 @@
             $("#vid-cat").html("");
             $("#vid-date").html("");
             $("#h1-key").css("cursor", "pointer");
-            d_URL = "http://localhost:8000/youtube/details/?id=" + youtubeshareid;
+            d_URL = "https://unblocktube.herokuapp.com/youtube/details/?id=" + youtubeshareid;
             $.getJSON(d_URL, function (data) {
                $("#vid-title").html(data.title);
                $("#vid-views").html(data.viewCount.text.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
@@ -844,7 +844,7 @@
                $("#vid-date").html(formatdate(data.publishDate));
                if (data.category == "Gaming" || data.category == "People & Blogs" || data.category == "Music") {
                   $("#embedvidretry").hide();
-                  $.getJSON("http://localhost:8000/youtube/src/?id=" + id, function (dd) {
+                  $.getJSON("https://unblocktube.herokuapp.com/youtube/src/?id=" + id, function (dd) {
                      var str = JSON.stringify(dd).replace('[{"src":"', "").replace('"}]', "");
                      iframe_url = str;
                      $("#youtube-iframe").attr("src", iframe_url);
@@ -869,7 +869,7 @@
                      track.kind = "captions";
                      track.label = "English (ID=" + makeidk(5) + ")";
                      track.srclang = "en";
-                     track.src = "http://localhost:8000/youtube/captions/?id=" + youtubeshareid;
+                     track.src = "https://unblocktube.herokuapp.com/youtube/captions/?id=" + youtubeshareid;
                      track.setAttribute("default", "");
                      track.setAttribute("id", "en-trans");
                      document.getElementById("youtube-iframe").appendChild(track);
@@ -889,7 +889,7 @@
                } else {
                   $("#embedvidretry").hide();
                   if (secretembed) {
-                     $.getJSON("http://localhost:8000/youtube/src/?id=" + id, function (dd) {
+                     $.getJSON("https://unblocktube.herokuapp.com/youtube/src/?id=" + id, function (dd) {
                         var str = JSON.stringify(dd).replace('[{"src":"', "").replace('"}]', "");
                         iframe_url = str;
                         $("#youtube-iframe").attr("src", iframe_url);
@@ -914,7 +914,7 @@
                         track.kind = "captions";
                         track.label = "English (ID=" + makeidk(5) + ")";
                         track.srclang = "en";
-                        track.src = "http://localhost:8000/youtube/captions/?id=" + youtubeshareid;
+                        track.src = "https://unblocktube.herokuapp.com/youtube/captions/?id=" + youtubeshareid;
                         track.setAttribute("default", "");
                         track.setAttribute("id", "en-trans");
                         document.getElementById("youtube-iframe").appendChild(track);
@@ -940,7 +940,7 @@
                   }
                }
             });
-            c_URL = "http://localhost:8000/youtube/comments/?id=" + youtubeshareid;
+            c_URL = "https://unblocktube.herokuapp.com/youtube/comments/?id=" + youtubeshareid;
             $.getJSON(c_URL, function (data) {
                comments(data);
             });
