@@ -34,7 +34,7 @@ def YoutubeSearchJSON(request):
                 search = uyts.Search(query)
                 return JsonResponse(search.resultsJSON, safe=False)
         else:
-            return render(request, 'classroom/index.save.html')
+            return render(request, 'classroom/index.html')
 
 
 @cache_page(60 * 60 * 6)
