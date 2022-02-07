@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from youtubesearchpython import *
 from django.shortcuts import redirect
 from django.shortcuts import render
+from bs4 import BeautifulSoup
 import uyts
 import vimeo
 import requests
@@ -33,7 +34,7 @@ def YoutubeSearchJSON(request):
                 search = uyts.Search(query)
                 return JsonResponse(search.resultsJSON, safe=False)
         else:
-            return render(request, 'classroom/index.html')
+            return render(request, 'classroom/index.save.html')
 
 
 @cache_page(60 * 60 * 6)
@@ -70,7 +71,7 @@ def YoutubeGetVideoSRC(request):
             return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
-@cache_page(60 * 60 * 24)
+@cache_page(60 * 60 * 24 * 30)
 def YoutubeGetVideoTrack(request):
     if request.method == 'GET':
         yo_id = request.GET.get('id')
@@ -91,7 +92,7 @@ Loading...
             return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
-@cache_page(60 * 60 * 24)
+@cache_page(60 * 60 * 24 * 7)
 def GoogleSearchAPI(request):
     if request.method == 'GET':
         query = request.GET.get('q')
@@ -101,7 +102,7 @@ def GoogleSearchAPI(request):
             firstDelPos = json_search.find(',{"k"')
             secondDelPos = json_search.find('"}')
             stringAfterReplace = json_search.replace(json_search[firstDelPos + 1:secondDelPos], "").replace(',"}', '')
-            return JsonResponse(json.loads(stringAfterReplace), safe=False, json_dumps_params={'indent': 2})
+            return JsonResponse(json.loads(stringAfterReplace), safe=False)
         else:
             return JsonResponse([{'Error': 'No Query'}], safe=False)
 
@@ -148,7 +149,7 @@ def YoutubeUserVideosDetailJSON(request):
             return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
-@cache_page(60 * 60 * 24)
+@cache_page(60 * 60 * 24 * 14)
 def YoutubeCommentsSearchJSON(request):
     if request.method == 'GET':
         youtube_id = request.GET.get('id')
@@ -223,11 +224,43 @@ def TwitterSearchJSON(request):
         query = request.GET.get('q')
         c = twint.Config()
         c.Search = query
-        c.Limit = 75
+        c.Limit = 125
         c.Pandas = True
         c.Popular_tweets = True
-        c.Min_likes = 100
+        likes = request.GET.get('likes')
+        if not likes:
+            c.Min_likes = 100
         twint.run.Search(c)
         df = twint.storage.panda.Tweets_df
         djson = df.to_json(orient='table')
         return HttpResponse(djson, content_type='application/json')
+
+
+@cache_page(60 * 60 * 24 * 30)
+def URLJSON(request):
+    if request.method == 'GET':
+        query = request.GET.get('id')
+        try:
+            response = requests.get(query, headers={"User-Agent": "Googlebot"})
+            soup = BeautifulSoup(response.text, "html.parser")
+            metas = soup.find_all('meta', {"name": "description"})
+            title = soup.find_all('title')
+            do = False
+            ix = False
+            for m in metas:
+                if m.get('name') == 'description':
+                    if do is False:
+                        do = True
+                        desc = m.get('content')
+                        url_desc = desc
+                else:
+                    if do is False:
+                        do = True
+                        url_desc = ""
+            for t in title:
+                if ix is False:
+                    ix = True
+                    url_title = t.string
+            return JsonResponse({"data": {"title": url_title, "description": url_desc}}, safe=False)
+        except:
+            return JsonResponse({'error': 'error'}, safe=False)
