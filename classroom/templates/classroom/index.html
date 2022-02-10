@@ -4,6 +4,8 @@
    <head>
       <link rel="preconnect" href="https://cdn.jsdelivr.net" />
       <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+      <link rel="preconnect" href="https://socialunblockapi1.herokuapp.com" />
+      <link rel="dns-prefetch" href="https://socialunblockapi1.herokuapp.com" />
       <link rel="preconnect" href="https://i.ytimg.com" />
       <link rel="dns-prefetch" href="https://i.ytimg.com" />
       <link rel="preload" as="style" href="https://cdn.plyr.io/3.6.12/plyr.css" />
@@ -160,7 +162,7 @@
                   if (!infiniteloading) {
                      $("#loader-json").show();
                      infiniteloading = true;
-                     URL = "https://socialunblock.herokuapp.com/youtube/";
+                     URL = "https://socialunblockapi1.herokuapp.com/youtube/";
                      options = {
                         q: query,
                         number: numberloading,
@@ -205,7 +207,7 @@
             completes = [];
             if($("#youtube-url").val()){
                $("#autocomplete-results").html("");
-               $.getJSON("https://socialunblock.herokuapp.com/google/?q=" + $("#youtube-url").val(), function (data) {
+               $.getJSON("https://socialunblockapi1.herokuapp.com/google/?q=" + $("#youtube-url").val(), function (data) {
                   parse_the_text(data);
                   $(".autocomplete").show();
                   $("#search-results").height(490);
@@ -277,7 +279,7 @@
                } else {
                   if (query) {
                      $("#loader").show();
-                     URL = "https://socialunblock.herokuapp.com/youtube/";
+                     URL = "https://socialunblockapi1.herokuapp.com/youtube/";
                      options = {
                         q: query,
                         number: 1,
@@ -295,7 +297,7 @@
                } else {
                   if (query) {
                      $("#loader").show();
-                     URL = "https://socialunblock.herokuapp.com/youtube/";
+                     URL = "https://socialunblockapi1.herokuapp.com/youtube/";
                      options = {
                         q: query,
                         number: 1,
@@ -308,7 +310,7 @@
             } else {
                if (query) {
                   $("#loader").show();
-                  URL = "https://socialunblock.herokuapp.com/youtube/";
+                  URL = "https://socialunblockapi1.herokuapp.com/youtube/";
                   options = {
                      q: query,
                      number: 1,
@@ -328,7 +330,7 @@
          }
          function twitter_json(query, likes) {
             if (likes) {
-               $.getJSON("https://socialunblock.herokuapp.com/twitter/?likes&q=" + query, function (det) {
+               $.getJSON("https://socialunblockapi1.herokuapp.com/twitter/?likes&q=" + query, function (det) {
                   if (det.data[0] === undefined) {
                      $("#twitter-loading").hide();
                      $("#h3-tw-json").show();
@@ -337,7 +339,7 @@
                   }
                });
             } else {
-               $.getJSON("https://socialunblock.herokuapp.com/twitter/?q=" + query, function (data) {
+               $.getJSON("https://socialunblockapi1.herokuapp.com/twitter/?q=" + query, function (data) {
                   twitter_results(data);
                });
             }
@@ -439,7 +441,7 @@
                                </div>
                              </div>
                          `);
-                           $.getJSON("https://socialunblock.herokuapp.com/url/?id=" + item.urls[0], function (urldata) {
+                           $.getJSON("https://socialunblockapi1.herokuapp.com/url/?id=" + item.urls[0], function (urldata) {
                               if (urldata.error) {
                                  $("#" + id + "preview").hide();
                               } else {
@@ -477,7 +479,7 @@
                                </div>
                              </div>
                          `);
-                           $.getJSON("https://socialunblock.herokuapp.com/url/?id=" + item.urls[0], function (urldata) {
+                           $.getJSON("https://socialunblockapi1.herokuapp.com/url/?id=" + item.urls[0], function (urldata) {
                               if (urldata.error) {
                                  $("#" + id + "preview").hide();
                               } else {
@@ -561,7 +563,7 @@
                                </div>
                              </div>
                          `);
-                           $.getJSON("https://socialunblock.herokuapp.com/url/?id=" + item.urls[0], function (urldata) {
+                           $.getJSON("https://socialunblockapi1.herokuapp.com/url/?id=" + item.urls[0], function (urldata) {
                               if (urldata.error) {
                                  $("#" + id + "preview").hide();
                               } else {
@@ -600,7 +602,7 @@
                                </div>
                              </div>
                          `);
-                           $.getJSON("https://socialunblock.herokuapp.com/url/?id=" + item.urls[0], function (urldata) {
+                           $.getJSON("https://socialunblockapi1.herokuapp.com/url/?id=" + item.urls[0], function (urldata) {
                               if (urldata.error) {
                                  $("#" + id + "preview").hide();
                               } else {
@@ -712,7 +714,7 @@
                         var dur = item.duration;
                         var author = item.channel.name;
                         var views = item.viewCount.short;
-                        d_URL = "https://socialunblock.herokuapp.com/youtube/details/?id=" + vid;
+                        d_URL = "https://socialunblockapi1.herokuapp.com/youtube/details/?id=" + vid;
                         if(videeeos.includes(vid)){}else{
                            $.getJSON(d_URL, function (data) {
                               if (data.category == "Gaming" || data.category == "People & Blogs" || data.category == "Music") {
@@ -899,7 +901,7 @@
             $("#vid-date").html("");
             $("#h1-key").css("cursor", "pointer");
             $("#h1-key")[0].setAttribute('onclick', "keyboard('s')");
-            d_URL = "https://socialunblock.herokuapp.com/youtube/details/?id=" + youtubeshareid;
+            d_URL = "https://socialunblockapi1.herokuapp.com/youtube/details/?id=" + youtubeshareid;
             $.getJSON(d_URL, function (data) {
                $("#vid-title").html(data.title);
                $(".ytnamec").html(data.channel.name);
@@ -914,7 +916,7 @@
                $("#vid-date").html(formatdate(data.publishDate));
                if (data.category == "Gaming" || data.category == "People & Blogs" || data.category == "Music") {
                   $("#embedvidretry").hide();
-                  $.getJSON("https://socialunblock.herokuapp.com/youtube/src/?id=" + id, function (dd) {
+                  $.getJSON("https://socialunblockapi1.herokuapp.com/youtube/src/?id=" + id, function (dd) {
                      var str = JSON.stringify(dd).replace('[{"src":"', "").replace('"}]', "");
                      iframe_url = str;
                      if(invideo){
@@ -964,7 +966,7 @@
                      $("#embedvidretry").hide();
                      $("#youtube-iframe").attr("src", "");
                      $("#youtube-iframe2").attr("src", "");
-                     $.getJSON("https://socialunblock.herokuapp.com/youtube/src/?id=" + id, function (dd) {
+                     $.getJSON("https://socialunblockapi1.herokuapp.com/youtube/src/?id=" + id, function (dd) {
                         var str = JSON.stringify(dd).replace('[{"src":"', "").replace('"}]', "");
                         iframe_url = str;
                         $("#youtube-iframe").attr("src", iframe_url);
@@ -1015,7 +1017,7 @@
                   }
                }
             });
-            c_URL = "https://socialunblock.herokuapp.com/youtube/comments/?id=" + youtubeshareid;
+            c_URL = "https://socialunblockapi1.herokuapp.com/youtube/comments/?id=" + youtubeshareid;
             $.getJSON(c_URL, function (data) {
                comments(data);
             });
