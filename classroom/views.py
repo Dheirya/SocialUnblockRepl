@@ -97,7 +97,7 @@ def GoogleSearchAPI(request):
     if request.method == 'GET':
         query = request.GET.get('q')
         if query:
-            search = requests.get('https://suggestqueries.google.com/complete/search?client=safari&q=' + query)
+            search = requests.get('https://suggestqueries.google.com/complete/search?client=safari&ds=yt&q=' + query)
             json_search = search.text
             firstDelPos = json_search.find(',{"k"')
             secondDelPos = json_search.find('"}')
