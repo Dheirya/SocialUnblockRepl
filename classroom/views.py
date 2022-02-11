@@ -7,7 +7,6 @@ from youtubesearchpython import *
 from django.shortcuts import redirect
 from django.shortcuts import render
 from bs4 import BeautifulSoup
-from django.http import HttpResponseServerError
 import uyts
 import vimeo
 import requests
@@ -41,43 +40,35 @@ def YoutubeSearchJSON(request):
 @cache_page(60 * 60 * 6)
 def YoutubeAdvancedSearchJSON(request):
     if request.method == 'GET':
-        verify = request.GET.get('ylBjHifEv0oP5MVOjJv52De5wBpzy2OVyzRH7RGhmixkd6nhMMz5jmrmEBQAXM51XOiPfFrAIhtOB9JWuzDUHCJ5B5Ph8TVF3CrsvpM5QKAh1JiYyNetNjc7NosLFOIoBAie9lvr6zBp7GEo0PWaXg9Z0Kx85hvdl3tY6feFq2GOmVWC9b4CQdjaK1e9LA5Qx3yCfmmLcfNKzCMorMqDmanAKlcbBysnzlOZnkBdfwPZ4yQGfNxr5Zvuh6')
-        if verify:
-            query = request.GET.get('q')
-            number = int(request.GET.get('number')) - 1
-            if query:
-                if request.GET.get('minify'):
-                    search = VideosSearch(query, limit=500)
-                    for _ in range(number):
-                        search.next()
-                    return JsonResponse(search.result(), safe=False, json_dumps_params={'indent': 2})
-                else:
-                    search = VideosSearch(query, limit=500)
-                    for _ in range(number):
-                        search.next()
-                    return JsonResponse(search.result(), safe=False)
+        query = request.GET.get('q')
+        number = int(request.GET.get('number')) - 1
+        if query:
+            if request.GET.get('minify'):
+                search = VideosSearch(query, limit=500)
+                for _ in range(number):
+                    search.next()
+                return JsonResponse(search.result(), safe=False, json_dumps_params={'indent': 2})
             else:
-                return JsonResponse([{'Error': 'No Query'}], safe=False)
+                search = VideosSearch(query, limit=500)
+                for _ in range(number):
+                    search.next()
+                return JsonResponse(search.result(), safe=False)
         else:
-            return HttpResponseServerError()
+            return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
 @never_cache
 def YoutubeGetVideoSRC(request):
     if request.method == 'GET':
-        verify = request.GET.get('ylBjHifEv0oP5MVOjJv52De5wBpzy2OVyzRH7RGhmixkd6nhMMz5jmrmEBQAXM51XOiPfFrAIhtOB9JWuzDUHCJ5B5Ph8TVF3CrsvpM5QKAh1JiYyNetNjc7NosLFOIoBAie9lvr6zBp7GEo0PWaXg9Z0Kx85hvdl3tY6feFq2GOmVWC9b4CQdjaK1e9LA5Qx3yCfmmLcfNKzCMorMqDmanAKlcbBysnzlOZnkBdfwPZ4yQGfNxr5Zvuh6')
-        if verify:
-            yo_id = request.GET.get('id')
-            if yo_id:
-                youtube = pytube.YouTube('https://youtube.com/watch?v=' + yo_id)
-                if request.GET.get('redirect'):
-                    return redirect(youtube.streams.get_highest_resolution().url)
-                else:
-                    return JsonResponse([{'src': youtube.streams.get_highest_resolution().url}], safe=False)
+        yo_id = request.GET.get('id')
+        if yo_id:
+            youtube = pytube.YouTube('https://youtube.com/watch?v=' + yo_id)
+            if request.GET.get('redirect'):
+                return redirect(youtube.streams.get_highest_resolution().url)
             else:
-                return JsonResponse([{'Error': 'No Query'}], safe=False)
+                return JsonResponse([{'src': youtube.streams.get_highest_resolution().url}], safe=False)
         else:
-            return HttpResponseServerError()
+            return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
 @cache_page(60 * 60 * 24 * 30)
@@ -104,204 +95,172 @@ Loading...
 @cache_page(60 * 60 * 24 * 7)
 def GoogleSearchAPI(request):
     if request.method == 'GET':
-        verify = request.GET.get('ylBjHifEv0oP5MVOjJv52De5wBpzy2OVyzRH7RGhmixkd6nhMMz5jmrmEBQAXM51XOiPfFrAIhtOB9JWuzDUHCJ5B5Ph8TVF3CrsvpM5QKAh1JiYyNetNjc7NosLFOIoBAie9lvr6zBp7GEo0PWaXg9Z0Kx85hvdl3tY6feFq2GOmVWC9b4CQdjaK1e9LA5Qx3yCfmmLcfNKzCMorMqDmanAKlcbBysnzlOZnkBdfwPZ4yQGfNxr5Zvuh6')
-        if verify:
-            query = request.GET.get('q')
-            if query:
-                search = requests.get('https://suggestqueries.google.com/complete/search?client=safari&ds=yt&q=' + query)
-                json_search = search.text
-                firstDelPos = json_search.find(',{"k"')
-                secondDelPos = json_search.find('"}')
-                stringAfterReplace = json_search.replace(json_search[firstDelPos + 1:secondDelPos], "").replace(',"}', '')
-                return JsonResponse(json.loads(stringAfterReplace), safe=False)
-            else:
-                return JsonResponse([{'Error': 'No Query'}], safe=False)
+        query = request.GET.get('q')
+        if query:
+            search = requests.get('https://suggestqueries.google.com/complete/search?client=safari&ds=yt&q=' + query)
+            json_search = search.text
+            firstDelPos = json_search.find(',{"k"')
+            secondDelPos = json_search.find('"}')
+            stringAfterReplace = json_search.replace(json_search[firstDelPos + 1:secondDelPos], "").replace(',"}', '')
+            return JsonResponse(json.loads(stringAfterReplace), safe=False)
         else:
-            return HttpResponseServerError()
+            return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
 @cache_page(60 * 60 * 6)
 def YoutubeVideoDetailJSON(request):
     if request.method == 'GET':
-        verify = request.GET.get('ylBjHifEv0oP5MVOjJv52De5wBpzy2OVyzRH7RGhmixkd6nhMMz5jmrmEBQAXM51XOiPfFrAIhtOB9JWuzDUHCJ5B5Ph8TVF3CrsvpM5QKAh1JiYyNetNjc7NosLFOIoBAie9lvr6zBp7GEo0PWaXg9Z0Kx85hvdl3tY6feFq2GOmVWC9b4CQdjaK1e9LA5Qx3yCfmmLcfNKzCMorMqDmanAKlcbBysnzlOZnkBdfwPZ4yQGfNxr5Zvuh6')
-        if verify:
-            youtube_id = request.GET.get('id')
-            if youtube_id:
-                if request.GET.get('minify'):
-                    try:
-                        videoInfo = Video.getInfo('https://youtu.be/' + youtube_id, mode=ResultMode.json)
-                        return JsonResponse(videoInfo, safe=False, json_dumps_params={'indent': 2})
-                    except:
-                        return JsonResponse([{'Error': 'No Comments'}], safe=False)
-                else:
-                    try:
-                        videoInfo = Video.getInfo('https://youtu.be/' + youtube_id, mode=ResultMode.json)
-                        return JsonResponse(videoInfo, safe=False)
-                    except:
-                        return JsonResponse([{'Error': 'No Comments'}], safe=False)
+        youtube_id = request.GET.get('id')
+        if youtube_id:
+            if request.GET.get('minify'):
+                try:
+                    videoInfo = Video.getInfo('https://youtu.be/' + youtube_id, mode=ResultMode.json)
+                    return JsonResponse(videoInfo, safe=False, json_dumps_params={'indent': 2})
+                except:
+                    return JsonResponse([{'Error': 'No Comments'}], safe=False)
             else:
-                return JsonResponse([{'Error': 'No Query'}], safe=False)
+                try:
+                    videoInfo = Video.getInfo('https://youtu.be/' + youtube_id, mode=ResultMode.json)
+                    return JsonResponse(videoInfo, safe=False)
+                except:
+                    return JsonResponse([{'Error': 'No Comments'}], safe=False)
         else:
-            return HttpResponseServerError()
+            return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
 @cache_page(60 * 60 * 6)
 def YoutubeUserVideosDetailJSON(request):
     if request.method == 'GET':
-        verify = request.GET.get('ylBjHifEv0oP5MVOjJv52De5wBpzy2OVyzRH7RGhmixkd6nhMMz5jmrmEBQAXM51XOiPfFrAIhtOB9JWuzDUHCJ5B5Ph8TVF3CrsvpM5QKAh1JiYyNetNjc7NosLFOIoBAie9lvr6zBp7GEo0PWaXg9Z0Kx85hvdl3tY6feFq2GOmVWC9b4CQdjaK1e9LA5Qx3yCfmmLcfNKzCMorMqDmanAKlcbBysnzlOZnkBdfwPZ4yQGfNxr5Zvuh6')
-        if verify:
-            youtube_id = request.GET.get('id')
-            if youtube_id:
-                if request.GET.get('minify'):
-                    try:
-                        videoInfo = Playlist(playlist_from_channel_id(youtube_id))
-                        return JsonResponse(videoInfo.videos, safe=False, json_dumps_params={'indent': 2})
-                    except:
-                        return JsonResponse([{'Error': 'No Comments'}], safe=False)
-                else:
-                    try:
-                        videoInfo = Playlist(playlist_from_channel_id(youtube_id))
-                        return JsonResponse(videoInfo.videos, safe=False)
-                    except:
-                        return JsonResponse([{'Error': 'No Comments'}], safe=False)
+        youtube_id = request.GET.get('id')
+        if youtube_id:
+            if request.GET.get('minify'):
+                try:
+                    videoInfo = Playlist(playlist_from_channel_id(youtube_id))
+                    return JsonResponse(videoInfo.videos, safe=False, json_dumps_params={'indent': 2})
+                except:
+                    return JsonResponse([{'Error': 'No Comments'}], safe=False)
             else:
-                return JsonResponse([{'Error': 'No Query'}], safe=False)
+                try:
+                    videoInfo = Playlist(playlist_from_channel_id(youtube_id))
+                    return JsonResponse(videoInfo.videos, safe=False)
+                except:
+                    return JsonResponse([{'Error': 'No Comments'}], safe=False)
         else:
-            return HttpResponseServerError()
+            return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
 @cache_page(60 * 60 * 24 * 14)
 def YoutubeCommentsSearchJSON(request):
     if request.method == 'GET':
-        verify = request.GET.get('ylBjHifEv0oP5MVOjJv52De5wBpzy2OVyzRH7RGhmixkd6nhMMz5jmrmEBQAXM51XOiPfFrAIhtOB9JWuzDUHCJ5B5Ph8TVF3CrsvpM5QKAh1JiYyNetNjc7NosLFOIoBAie9lvr6zBp7GEo0PWaXg9Z0Kx85hvdl3tY6feFq2GOmVWC9b4CQdjaK1e9LA5Qx3yCfmmLcfNKzCMorMqDmanAKlcbBysnzlOZnkBdfwPZ4yQGfNxr5Zvuh6')
-        if verify:
-            youtube_id = request.GET.get('id')
-            if youtube_id:
-                if request.GET.get('minify'):
-                    try:
-                        comments = requests.get('https://www.googleapis.com/youtube/v3/commentThreads?key=AIzaSyDFO7M1HRjsSIuovZkKoexorn4_SDswAdk&textFormat=plainText&part=snippet&maxResults=75&order=relevance&videoId=' + youtube_id)
-                        return JsonResponse(comments.json(), safe=False, json_dumps_params={'indent': 2})
-                    except:
-                        return JsonResponse([{'Error': 'No Comments'}], safe=False)
-                else:
-                    try:
-                        comments = requests.get('https://www.googleapis.com/youtube/v3/commentThreads?key=AIzaSyDFO7M1HRjsSIuovZkKoexorn4_SDswAdk&textFormat=plainText&part=snippet&maxResults=75&order=relevance&videoId=' + youtube_id)
-                        return JsonResponse(comments.json(), safe=False)
-                    except:
-                        return JsonResponse([{'Error': 'No Comments'}], safe=False)
+        youtube_id = request.GET.get('id')
+        if youtube_id:
+            if request.GET.get('minify'):
+                try:
+                    comments = requests.get('https://www.googleapis.com/youtube/v3/commentThreads?key=AIzaSyDFO7M1HRjsSIuovZkKoexorn4_SDswAdk&textFormat=plainText&part=snippet&maxResults=75&order=relevance&videoId=' + youtube_id)
+                    return JsonResponse(comments.json(), safe=False, json_dumps_params={'indent': 2})
+                except:
+                    return JsonResponse([{'Error': 'No Comments'}], safe=False)
             else:
-                return JsonResponse([{'Error': 'No Query'}], safe=False)
+                try:
+                    comments = requests.get('https://www.googleapis.com/youtube/v3/commentThreads?key=AIzaSyDFO7M1HRjsSIuovZkKoexorn4_SDswAdk&textFormat=plainText&part=snippet&maxResults=75&order=relevance&videoId=' + youtube_id)
+                    return JsonResponse(comments.json(), safe=False)
+                except:
+                    return JsonResponse([{'Error': 'No Comments'}], safe=False)
         else:
-            return HttpResponseServerError()
+            return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
 @cache_page(60 * 60 * 6)
 def VimeoSearchJSON(request):
     if request.method == 'GET':
-        verify = request.GET.get('ylBjHifEv0oP5MVOjJv52De5wBpzy2OVyzRH7RGhmixkd6nhMMz5jmrmEBQAXM51XOiPfFrAIhtOB9JWuzDUHCJ5B5Ph8TVF3CrsvpM5QKAh1JiYyNetNjc7NosLFOIoBAie9lvr6zBp7GEo0PWaXg9Z0Kx85hvdl3tY6feFq2GOmVWC9b4CQdjaK1e9LA5Qx3yCfmmLcfNKzCMorMqDmanAKlcbBysnzlOZnkBdfwPZ4yQGfNxr5Zvuh6')
-        if verify:
-            query = request.GET.get('q')
-            limit = request.GET.get('num')
-            if query:
-                if request.GET.get('minify'):
-                    if limit:
-                        search = v.get('/videos?page=1&per_page=' + limit + '&query=' + query + '&sort=likes')
-                        return JsonResponse(search.json(), safe=False, json_dumps_params={'indent': 2})
-                    else:
-                        search = v.get('/videos?page=1&per_page=10&query=' + query + '&sort=likes')
-                        return JsonResponse(search.json(), safe=False, json_dumps_params={'indent': 2})
+        query = request.GET.get('q')
+        limit = request.GET.get('num')
+        if query:
+            if request.GET.get('minify'):
+                if limit:
+                    search = v.get('/videos?page=1&per_page=' + limit + '&query=' + query + '&sort=likes')
+                    return JsonResponse(search.json(), safe=False, json_dumps_params={'indent': 2})
                 else:
-                    if limit:
-                        search = v.get('/videos?page=1&per_page=' + limit + '&query=' + query + '&sort=likes')
-                        return JsonResponse(search.json(), safe=False)
-                    else:
-                        search = v.get('/videos?page=1&per_page=10&query=' + query + '&sort=likes')
-                        return JsonResponse(search.json(), safe=False)
+                    search = v.get('/videos?page=1&per_page=10&query=' + query + '&sort=likes')
+                    return JsonResponse(search.json(), safe=False, json_dumps_params={'indent': 2})
             else:
-                return JsonResponse([{'Error': 'No Query'}], safe=False)
+                if limit:
+                    search = v.get('/videos?page=1&per_page=' + limit + '&query=' + query + '&sort=likes')
+                    return JsonResponse(search.json(), safe=False)
+                else:
+                    search = v.get('/videos?page=1&per_page=10&query=' + query + '&sort=likes')
+                    return JsonResponse(search.json(), safe=False)
         else:
-            return HttpResponseServerError()
+            return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
 @cache_page(60 * 60 * 6)
 def DailyMotionSearchJSON(request):
     if request.method == 'GET':
-        verify = request.GET.get('ylBjHifEv0oP5MVOjJv52De5wBpzy2OVyzRH7RGhmixkd6nhMMz5jmrmEBQAXM51XOiPfFrAIhtOB9JWuzDUHCJ5B5Ph8TVF3CrsvpM5QKAh1JiYyNetNjc7NosLFOIoBAie9lvr6zBp7GEo0PWaXg9Z0Kx85hvdl3tY6feFq2GOmVWC9b4CQdjaK1e9LA5Qx3yCfmmLcfNKzCMorMqDmanAKlcbBysnzlOZnkBdfwPZ4yQGfNxr5Zvuh6')
-        if verify:
-            query = request.GET.get('q')
-            limit = request.GET.get('num')
-            if query:
-                if request.GET.get('minify'):
-                    if limit:
-                        search = requests.get('https://api.dailymotion.com/videos?fields=id,embed_url,thumbnail_url,title,owner.screenname,duration&limit=' + limit + '&search=' + query)
-                        return JsonResponse(search.json(), safe=False, json_dumps_params={'indent': 2})
-                    else:
-                        search = requests.get('https://api.dailymotion.com/videos?fields=id,embed_url,thumbnail_url,title,owner.screenname,duration&limit=50&search=' + query)
-                        return JsonResponse(search.json(), safe=False, json_dumps_params={'indent': 2})
+        query = request.GET.get('q')
+        limit = request.GET.get('num')
+        if query:
+            if request.GET.get('minify'):
+                if limit:
+                    search = requests.get('https://api.dailymotion.com/videos?fields=id,embed_url,thumbnail_url,title,owner.screenname,duration&limit=' + limit + '&search=' + query)
+                    return JsonResponse(search.json(), safe=False, json_dumps_params={'indent': 2})
                 else:
-                    if limit:
-                        search = requests.get('https://api.dailymotion.com/videos?fields=id,embed_url,thumbnail_url,title,owner.screenname,duration&limit=' + limit + '&search=' + query)
-                        return JsonResponse(search.json(), safe=False)
-                    else:
-                        search = requests.get('https://api.dailymotion.com/videos?fields=id,embed_url,thumbnail_url,title,owner.screenname,duration&limit=50&search=' + query)
-                        return JsonResponse(search.json(), safe=False)
+                    search = requests.get('https://api.dailymotion.com/videos?fields=id,embed_url,thumbnail_url,title,owner.screenname,duration&limit=50&search=' + query)
+                    return JsonResponse(search.json(), safe=False, json_dumps_params={'indent': 2})
             else:
-                return JsonResponse([{'Error': 'No Query'}], safe=False)
+                if limit:
+                    search = requests.get('https://api.dailymotion.com/videos?fields=id,embed_url,thumbnail_url,title,owner.screenname,duration&limit=' + limit + '&search=' + query)
+                    return JsonResponse(search.json(), safe=False)
+                else:
+                    search = requests.get('https://api.dailymotion.com/videos?fields=id,embed_url,thumbnail_url,title,owner.screenname,duration&limit=50&search=' + query)
+                    return JsonResponse(search.json(), safe=False)
         else:
-            return HttpResponseServerError()
+            return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
 @cache_page(60 * 60 * 24)
 def TwitterSearchJSON(request):
     if request.method == 'GET':
-        verify = request.GET.get('ylBjHifEv0oP5MVOjJv52De5wBpzy2OVyzRH7RGhmixkd6nhMMz5jmrmEBQAXM51XOiPfFrAIhtOB9JWuzDUHCJ5B5Ph8TVF3CrsvpM5QKAh1JiYyNetNjc7NosLFOIoBAie9lvr6zBp7GEo0PWaXg9Z0Kx85hvdl3tY6feFq2GOmVWC9b4CQdjaK1e9LA5Qx3yCfmmLcfNKzCMorMqDmanAKlcbBysnzlOZnkBdfwPZ4yQGfNxr5Zvuh6')
-        if verify:
-            query = request.GET.get('q')
-            c = twint.Config()
-            c.Search = query
-            c.Limit = 125
-            c.Pandas = True
-            c.Popular_tweets = True
-            likes = request.GET.get('likes')
-            if not likes:
-                c.Min_likes = 100
-            twint.run.Search(c)
-            df = twint.storage.panda.Tweets_df
-            djson = df.to_json(orient='table')
-            return HttpResponse(djson, content_type='application/json')
-        else:
-            return HttpResponseServerError()
+        query = request.GET.get('q')
+        c = twint.Config()
+        c.Search = query
+        c.Limit = 125
+        c.Pandas = True
+        c.Popular_tweets = True
+        likes = request.GET.get('likes')
+        if not likes:
+            c.Min_likes = 100
+        twint.run.Search(c)
+        df = twint.storage.panda.Tweets_df
+        djson = df.to_json(orient='table')
+        return HttpResponse(djson, content_type='application/json')
 
 
 @cache_page(60 * 60 * 24 * 30)
 def URLJSON(request):
     if request.method == 'GET':
-        verify = request.GET.get('ylBjHifEv0oP5MVOjJv52De5wBpzy2OVyzRH7RGhmixkd6nhMMz5jmrmEBQAXM51XOiPfFrAIhtOB9JWuzDUHCJ5B5Ph8TVF3CrsvpM5QKAh1JiYyNetNjc7NosLFOIoBAie9lvr6zBp7GEo0PWaXg9Z0Kx85hvdl3tY6feFq2GOmVWC9b4CQdjaK1e9LA5Qx3yCfmmLcfNKzCMorMqDmanAKlcbBysnzlOZnkBdfwPZ4yQGfNxr5Zvuh6')
-        if verify:
-            query = request.GET.get('id')
-            try:
-                response = requests.get(query, headers={"User-Agent": "Googlebot"})
-                soup = BeautifulSoup(response.text, "html.parser")
-                metas = soup.find_all('meta', {"name": "description"})
-                title = soup.find_all('title')
-                do = False
-                ix = False
-                for m in metas:
-                    if m.get('name') == 'description':
-                        if do is False:
-                            do = True
-                            desc = m.get('content')
-                            url_desc = desc
-                    else:
-                        if do is False:
-                            do = True
-                            url_desc = ""
-                for t in title:
-                    if ix is False:
-                        ix = True
-                        url_title = t.string
-                return JsonResponse({"data": {"title": url_title, "description": url_desc}}, safe=False)
-            except:
-                return JsonResponse({'error': 'error'}, safe=False)
-        else:
-            return HttpResponseServerError()
+        query = request.GET.get('id')
+        try:
+            response = requests.get(query, headers={"User-Agent": "Googlebot"})
+            soup = BeautifulSoup(response.text, "html.parser")
+            metas = soup.find_all('meta', {"name": "description"})
+            title = soup.find_all('title')
+            do = False
+            ix = False
+            for m in metas:
+                if m.get('name') == 'description':
+                    if do is False:
+                        do = True
+                        desc = m.get('content')
+                        url_desc = desc
+                else:
+                    if do is False:
+                        do = True
+                        url_desc = ""
+            for t in title:
+                if ix is False:
+                    ix = True
+                    url_title = t.string
+            return JsonResponse({"data": {"title": url_title, "description": url_desc}}, safe=False)
+        except:
+            return JsonResponse({'error': 'error'}, safe=False)
