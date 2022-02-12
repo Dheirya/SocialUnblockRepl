@@ -5,7 +5,6 @@ from youtube_transcript_api.formatters import WebVTTFormatter
 from django.http import HttpResponse
 from youtubesearchpython import *
 from django.shortcuts import redirect
-from TikTokAPI import TikTokAPI
 from django.shortcuts import render
 from bs4 import BeautifulSoup
 import uyts
@@ -235,23 +234,6 @@ def TwitterSearchJSON(request):
         df = twint.storage.panda.Tweets_df
         djson = df.to_json(orient='table')
         return HttpResponse(djson, content_type='application/json')
-
-
-def tiktok(query):
-    cookie = {
-        "s_v_web_id": "verify_kzjw2ghc_RRrKve6s_HNsT_4ATc_BSEq_BuV6L9EoOmWG"
-    }
-    api = TikTokAPI(cookie=cookie)
-    retval = api.getVideosByHashTag(query, count=5)
-    return retval
-
-
-@cache_page(60 * 60 * 24)
-def TiktokSearchJSON(request):
-    if request.method == 'GET':
-        q = request.GET.get('q')
-        trending = tiktok(q)
-        return JsonResponse(trending, safe=False, json_dumps_params={'indent': 2})
 
 
 @cache_page(60 * 60 * 24 * 30)
