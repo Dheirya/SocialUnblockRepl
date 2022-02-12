@@ -106,11 +106,13 @@ pyee==8.1.0
 pyOpenSSL==22.0.0
 pyparsing==3.0.6
 pyppeteer==1.0.2
+pyppeteer-stealth==2.7.3
 pyquery==1.4.3
 PySocks==1.7.1
 python-dateutil==2.8.2
 python-dotenv==0.19.2
 python-socks==2.0.3
+PyTikTokAPI @ git+https://github.com/sponsokit/TikTokAPI-Python@38149bfbad78a81c2000e1fb33838179638a1fe3
 pytube @ git+https://github.com/Dheirya/pytube@3907718a5030f323dc596bb1551e1473c8ec27ff
 pytube3==9.6.4
 pytz==2021.1
@@ -136,7 +138,6 @@ tensorboard-plugin-wit==1.8.0
 tensorflow-estimator==2.7.0
 tensorflow-io-gcs-filesystem==0.23.1
 termcolor==1.1.0
-TikTokApi @ git+https://github.com/davidteather/TikTok-Api.git@a356324ab3171d473619fdf3e1dd71e5996cfc29
 tinydb==4.6.1
 tqdm==4.62.3
 tuspy==0.2.5

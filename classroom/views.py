@@ -5,7 +5,7 @@ from youtube_transcript_api.formatters import WebVTTFormatter
 from django.http import HttpResponse
 from youtubesearchpython import *
 from django.shortcuts import redirect
-from TikTokApi import TikTokApi
+from TikTokAPI import TikTokAPI
 from django.shortcuts import render
 from bs4 import BeautifulSoup
 import uyts
@@ -238,10 +238,12 @@ def TwitterSearchJSON(request):
 
 
 def tiktok(query):
-    api = TikTokApi.get_instance()
-    results = 10
-    trending = api.by_hashtag(hashtag=query, count=results, custom_verifyFp="verify_kzj4e8xv_VypMtqqM_HwGF_475S_8GbC_6cSNVyT5B4Sm")
-    return trending
+    cookie = {
+        "s_v_web_id": "verify_kzjw2ghc_RRrKve6s_HNsT_4ATc_BSEq_BuV6L9EoOmWG"
+    }
+    api = TikTokAPI(cookie=cookie)
+    retval = api.getVideosByHashTag(query, count=5)
+    return retval
 
 
 @cache_page(60 * 60 * 24)
