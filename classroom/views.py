@@ -240,7 +240,7 @@ def TwitterSearchJSON(request):
 def tiktok(query):
     api = TikTokApi.get_instance()
     results = 10
-    trending = api.by_hashtag(hashtag=query, count=results, custom_verifyFp="")
+    trending = api.by_hashtag(hashtag=query, count=results, custom_verifyFp="verify_kzj4e8xv_VypMtqqM_HwGF_475S_8GbC_6cSNVyT5B4Sm")
     return trending
 
 
