@@ -136,7 +136,7 @@ tensorboard-plugin-wit==1.8.0
 tensorflow-estimator==2.7.0
 tensorflow-io-gcs-filesystem==0.23.1
 termcolor==1.1.0
-TikTokApi==4.1.0
+TikTokApi @ git+https://github.com/davidteather/TikTok-Api.git@a356324ab3171d473619fdf3e1dd71e5996cfc29
 tinydb==4.6.1
 tqdm==4.62.3
 tuspy==0.2.5
