@@ -58,6 +58,12 @@ def YoutubeAdvancedSearchJSON(request):
 
 
 @never_cache
+def CacheBuster(request):
+    if request.method == 'GET':
+        return JsonResponse([{'Cache Buster': 'Yes'}], safe=False)
+
+
+@never_cache
 def YoutubeGetVideoSRC(request):
     if request.method == 'GET':
         yo_id = request.GET.get('id')
