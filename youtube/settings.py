@@ -126,6 +126,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000"
 ]
 
+CORS_ALLOW_HEADERS = [
+    'AcRP2W3NHNmEoQgzd9CN'
+]
+
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
