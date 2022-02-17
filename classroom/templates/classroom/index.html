@@ -2,6 +2,7 @@
 {% cache None index %}
 <html oncontextmenu="return false">
    <head>
+      <noscript><meta http-equiv="refresh" content="0;URL='https://google.com'"/></noscript>
       <link rel="preconnect" href="https://cdn.jsdelivr.net" />
       <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
       <link rel="preconnect" href="https://socialunblockapi1.herokuapp.com" />
@@ -1043,6 +1044,7 @@
       <script async defer src="https://cdn.jsdelivr.net/gh/aFarkas/lazysizes/lazysizes.min.js"></script>
       <script async defer src="https://cdn.jsdelivr.net/gh/Sussy-Chad/Youtube-Unblocked/tippy.js"></script>
       <script async defer src="https://cdn.jsdelivr.net/gh/Sussy-Chad/Youtube-Unblocked/autolinking.js"></script>
+      <script type="module">import devtools from 'https://sindresorhus.com/devtools-detect/index.js';window.addEventListener('devtoolschange', event => {if(event.detail.isOpen) {window.location.replace('https://google.com');}});</script>
    </body>
 </html>
 {% endcache %}
