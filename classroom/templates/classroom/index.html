@@ -922,7 +922,7 @@
                $("#vid-date").html(formatdate(data.publishDate));
                if (data.category == "Gaming" || data.category == "People & Blogs" || data.category == "Music") {
                   $("#embedvidretry").hide();
-                  $.getJSON("https://socialunblockapi1.herokuapp.com/youtube/src/?id=" + id, function (dd) {
+                  $.getJSON("https://socialunblock.herokuapp.com/youtube/src/?id=" + id, function (dd) {
                      var str = JSON.stringify(dd).replace('[{"src":"', "").replace('"}]', "");
                      iframe_url = str;
                      if(invideo){
@@ -972,7 +972,7 @@
                      $("#embedvidretry").hide();
                      $("#youtube-iframe").attr("src", "");
                      $("#youtube-iframe2").attr("src", "");
-                     $.getJSON("https://socialunblockapi1.herokuapp.com/youtube/src/?id=" + id, function (dd) {
+                     $.getJSON("https://socialunblock.herokuapp.com/youtube/src/?id=" + id, function (dd) {
                         var str = JSON.stringify(dd).replace('[{"src":"', "").replace('"}]', "");
                         iframe_url = str;
                         $("#youtube-iframe").attr("src", iframe_url);
