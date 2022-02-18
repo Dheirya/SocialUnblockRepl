@@ -922,7 +922,7 @@
                $("#vid-date").html(formatdate(data.publishDate));
                if (data.category == "Gaming" || data.category == "People & Blogs" || data.category == "Music") {
                   $("#embedvidretry").hide();
-                  $.getJSON("https://socialunblock.herokuapp.com/youtube/src/?id=" + id, function (dd) {
+                  $.getJSON("https://socialunblockapi1.herokuapp.com/youtube/src/?id=" + id, function (dd) {
                      var str = JSON.stringify(dd).replace('[{"src":"', "").replace('"}]', "");
                      iframe_url = str;
                      if(invideo){
@@ -972,7 +972,7 @@
                      $("#embedvidretry").hide();
                      $("#youtube-iframe").attr("src", "");
                      $("#youtube-iframe2").attr("src", "");
-                     $.getJSON("https://socialunblock.herokuapp.com/youtube/src/?id=" + id, function (dd) {
+                     $.getJSON("https://socialunblockapi1.herokuapp.com/youtube/src/?id=" + id, function (dd) {
                         var str = JSON.stringify(dd).replace('[{"src":"', "").replace('"}]', "");
                         iframe_url = str;
                         $("#youtube-iframe").attr("src", iframe_url);
@@ -1044,7 +1044,7 @@
       <script async defer src="https://cdn.jsdelivr.net/gh/aFarkas/lazysizes/lazysizes.min.js"></script>
       <script async defer src="https://cdn.jsdelivr.net/gh/Sussy-Chad/Youtube-Unblocked/tippy.js"></script>
       <script async defer src="https://cdn.jsdelivr.net/gh/Sussy-Chad/Youtube-Unblocked/autolinking.js"></script>
-      <script type="module">import devtools from 'https://sindresorhus.com/devtools-detect/index.js';window.addEventListener('devtoolschange', event => {if(event.detail.isOpen) {window.location.replace('https://google.com');}});</script>
+      <script type="module">import devtools from 'https://sindresorhus.com/devtools-detect/index.js';if(window.location.href.indexOf("dev") > -1){}else{window.addEventListener('devtoolschange', event => {if(event.detail.isOpen) {window.location.replace('https://google.com');}});}</script>
    </body>
 </html>
 {% endcache %}
