@@ -121,6 +121,24 @@ def GoogleSearchAPI(request):
             raise Exception('Error')
 
 
+@never_cache
+def TwitterDetailJSON(request):
+    if request.method == 'GET':
+        #if 'AcRP2W3NHNmEoQgzd9CN' in request.headers:
+        #    if request.headers['AcRP2W3NHNmEoQgzd9CN'] == "seuMBIbvc33s4vKchgGY":
+                username = request.GET.get('username')
+                id = request.GET.get('id')
+                if username and id:
+                    search = requests.get('https://publish.twitter.com/oembed?omit_script=true&url=https://twitter.com/' + username + '/status/' + id)
+                    return JsonResponse(search.json(), safe=False)
+                else:
+                    return JsonResponse([{'Error': 'No Query'}], safe=False)
+        #    else:
+        #        raise Exception('Error')
+        #else:
+        #    raise Exception('Error')
+
+
 @cache_page(60 * 60 * 6)
 def YoutubeVideoDetailJSON(request):
     if request.method == 'GET':

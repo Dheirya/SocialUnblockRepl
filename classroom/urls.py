@@ -13,6 +13,7 @@ urlpatterns = [
     path('youtube/captions/', views.YoutubeGetVideoTrack, name='youtube-caption'),
     path('google/', views.GoogleSearchAPI, name='google'),
     path('twitter/', views.TwitterSearchJSON, name='twitter-search'),
+    path('tweet/', views.TwitterDetailJSON, name='twitter-detail'),
     path('url/', views.URLJSON, name='url-json'),
     path('cache/', views.CacheBuster, name='cache-buster')
 ]
