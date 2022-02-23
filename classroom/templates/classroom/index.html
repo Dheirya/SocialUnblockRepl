@@ -1380,7 +1380,7 @@
          }
          function sharetweet() {
             user = $("#twtr-handle").text().replace("@", "");
-            id = $("#twtr-url").text().replace(/\D/g, "");
+            id = $("#twtr-url").text().split("/status/").pop().replace(/\D/g, "");
             var searchParams = new URLSearchParams(window.location.search);
             searchParams.set("user", user);
             searchParams.set("id", id);
