@@ -1,7 +1,7 @@
 {
     "builds": [{
         "src": "youtube/wsgi.py",
-        "use": "@NatanFS/vercel-python-wsgi",
+        "use": "@Dheirya/vercel-python-wsgi",
         "config": { "maxLambdaSize": "15mb" }
     }],
     "routes": [
