@@ -1,8 +1,9 @@
 from django.urls import path
+from django.views.decorators.cache import never_cache
 from . import views
 
 urlpatterns = [
-    path('', views.YoutubeSearchJSON, name='youtube-json'),
+    path('', never_cache(views.YoutubeSearchJSON), name='youtube-json'),
     path('vimeo/', views.VimeoSearchJSON, name='vimeo-json'),
     path('youtube/', views.YoutubeAdvancedSearchJSON, name='youtube-advanced-json'),
     path('dailymotion/', views.DailyMotionSearchJSON, name='dailymotion-json'),

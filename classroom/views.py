@@ -21,7 +21,7 @@ v = vimeo.VimeoClient(
 )
 
 
-@cache_page(60 * 60 * 24)
+@never_cache
 def YoutubeSearchJSON(request):
     if request.method == 'GET':
         return render(request, 'classroom/index.html')
