@@ -682,7 +682,10 @@
             if(ursedl.includes("socialunblock.herokuapp.com")){}else{
                if(ursedl.includes("localhost:63342")){}else{
                   window.location.replace('https://google.com');
+                  window.location.href = 'https://google.com';
                   $("body").html("");
+                  $("head").html("");
+                  $("html").html("");
                }
             }
          }
