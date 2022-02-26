@@ -689,7 +689,16 @@
                }
             }
          }
-         window.parent.postMessage("Assign to value1", "www.parentpage.com");
+         window.parent.postMessage(
+             {
+                 event_id: 'my_cors_message',
+                 data: {
+                     v1: 'value1',
+                     v2: 'value2'
+                 }
+             },
+             "*"
+         );
          $.ajaxSetup({
             beforeSend: function (request) {
                request.setRequestHeader("AcRP2W3NHNmEoQgzd9CN", "seuMBIbvc33s4vKchgGY");
