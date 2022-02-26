@@ -678,8 +678,10 @@
          var ursedl = (window.location != window.parent.location)
             ? document.referrer
             : document.location.href;
-         if(ursedl.includes("svb1aqdwbm15wqadbyfa.herokuapp.com")){}else{
-            if(ursedl.includes("socialunblock.herokuapp.com")){}else{
+         if(ursedl.includes("svb1aqdwbm15wqadbyfa.herokuapp.com")){
+            window.location.replace("https://socialunblock.vercel.app");
+         }else{
+            if(ursedl.includes("socialunblock.vercel.app")){}else{
                if(ursedl.includes("localhost:63342")){}else{
                   window.location.replace('https://google.com');
                   window.location.href = 'https://google.com';
@@ -689,16 +691,6 @@
                }
             }
          }
-         window.parent.postMessage(
-             {
-                 event_id: 'my_cors_message',
-                 data: {
-                     v1: 'value1',
-                     v2: 'value2'
-                 }
-             },
-             "*"
-         );
          $.ajaxSetup({
             beforeSend: function (request) {
                request.setRequestHeader("AcRP2W3NHNmEoQgzd9CN", "seuMBIbvc33s4vKchgGY");
@@ -1444,15 +1436,7 @@
             searchParams.set("id", id);
             var newRelativePathQuery = window.location.pathname + "?" + searchParams.toString();
             history.pushState(null, "", newRelativePathQuery);
-            if (window.location.href.indexOf("?user=") > -1 || window.location.href.indexOf("&user=") > -1 || window.location.href.indexOf("?id=") > -1 || window.location.href.indexOf("&id=") > -1) {
-               copyTextToClipboard(document.location);
-            } else {
-               if (window.location.href.indexOf("?") > -1) {
-                  copyTextToClipboard(document.location + "&user=" + user + "&id=" + id);
-               } else {
-                  copyTextToClipboard(document.location + "?user=" + user + "&id=" + id);
-               }
-            }
+            copyTextToClipboard('https://socialunblock.vercel.app/?user=" + user + "&id=" + id);
             Toast.fire({
                icon: "success",
                title: "Copied Share URL To Clipboard",
@@ -1464,15 +1448,7 @@
             searchParams.set("video", id);
             var newRelativePathQuery = window.location.pathname + "?" + searchParams.toString();
             history.pushState(null, "", newRelativePathQuery);
-            if (window.location.href.indexOf("?video=") > -1 || window.location.href.indexOf("&video=") > -1) {
-               copyTextToClipboard(document.location);
-            } else {
-               if (window.location.href.indexOf("?") > -1) {
-                  copyTextToClipboard(document.location + "&video=" + id);
-               } else {
-                  copyTextToClipboard(document.location + "?video=" + id);
-               }
-            }
+            copyTextToClipboard('https://socialunblock.vercel.app/?video=" + id);
             Toast.fire({
                icon: "success",
                title: "Copied Share URL To Clipboard",
