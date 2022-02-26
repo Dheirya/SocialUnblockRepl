@@ -678,7 +678,14 @@
          var ursedl = (window.location != window.parent.location)
             ? document.referrer
             : document.location.href;
-         alert(ursedl);
+         if(ursedl.includes("svb1aqdwbm15wqadbyfa.herokuapp.com")){}else{
+            if(ursedl.includes("socialunblock.herokuapp.com")){}else{
+               if(ursedl.includes("localhost:63342")){}else{
+                  window.location.replace('https://google.com');
+                  $("body").html("");
+               }
+            }
+         }
          $.ajaxSetup({
             beforeSend: function (request) {
                request.setRequestHeader("AcRP2W3NHNmEoQgzd9CN", "seuMBIbvc33s4vKchgGY");
