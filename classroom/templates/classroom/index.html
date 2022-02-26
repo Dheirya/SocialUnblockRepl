@@ -4,8 +4,6 @@
       <noscript><meta http-equiv="refresh" content="0;URL='https://google.com'" /></noscript>
       <link rel="preconnect" href="https://cdn.jsdelivr.net" />
       <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-      <link rel="preconnect" href="https://socialunblockapi1.herokuapp.com" />
-      <link rel="dns-prefetch" href="https://socialunblockapi1.herokuapp.com" />
       <link rel="preconnect" href="https://i.ytimg.com" />
       <link rel="dns-prefetch" href="https://i.ytimg.com" />
       <link rel="preload" as="style" href="https://cdn.plyr.io/3.6.12/plyr.css" />
@@ -733,7 +731,7 @@
                   if (!infiniteloading) {
                      $("#loader-json").show();
                      infiniteloading = true;
-                     URL = "https://socialunblockapi1.herokuapp.com/youtube/";
+                     URL = "https://svb1aqdwbm15wqadbyfa.herokuapp.com/youtube/";
                      options = {
                         q: query,
                         number: numberloading,
@@ -779,7 +777,7 @@
             completes = [];
             if ($("#youtube-url").val()) {
                $("#autocomplete-results").html("");
-               $.getJSON("https://socialunblockapi1.herokuapp.com/google/?q=" + $("#youtube-url").val(), function (data) {
+               $.getJSON("https://svb1aqdwbm15wqadbyfa.herokuapp.com/google/?q=" + $("#youtube-url").val(), function (data) {
                   parse_the_text(data);
                   if (completes != "") {
                      $(".autocomplete").show();
@@ -865,7 +863,7 @@
                } else {
                   if (query) {
                      $("#loader").show();
-                     URL = "https://socialunblockapi1.herokuapp.com/youtube/";
+                     URL = "https://svb1aqdwbm15wqadbyfa.herokuapp.com/youtube/";
                      options = {
                         q: query,
                         number: 1,
@@ -883,7 +881,7 @@
                } else {
                   if (query) {
                      $("#loader").show();
-                     URL = "https://socialunblockapi1.herokuapp.com/youtube/";
+                     URL = "https://svb1aqdwbm15wqadbyfa.herokuapp.com/youtube/";
                      options = {
                         q: query,
                         number: 1,
@@ -896,7 +894,7 @@
             } else {
                if (query) {
                   $("#loader").show();
-                  URL = "https://socialunblockapi1.herokuapp.com/youtube/";
+                  URL = "https://svb1aqdwbm15wqadbyfa.herokuapp.com/youtube/";
                   options = {
                      q: query,
                      number: 1,
@@ -916,7 +914,7 @@
          }
          function twitter_json(query, likes) {
             if (likes) {
-               $.getJSON("https://socialunblockapi1.herokuapp.com/twitter/?likes&q=" + query, function (det) {
+               $.getJSON("https://svb1aqdwbm15wqadbyfa.herokuapp.com/twitter/?likes&q=" + query, function (det) {
                   if (det.data[0] === undefined) {
                      $("#twitter-loading").hide();
                      $("#h3-tw-json").show();
@@ -925,7 +923,7 @@
                   }
                });
             } else {
-               $.getJSON("https://socialunblockapi1.herokuapp.com/twitter/?q=" + query, function (data) {
+               $.getJSON("https://svb1aqdwbm15wqadbyfa.herokuapp.com/twitter/?q=" + query, function (data) {
                   twitter_results(data);
                });
             }
@@ -1027,7 +1025,7 @@
                                </div>
                              </div>
                          `);
-                           $.getJSON("https://socialunblockapi1.herokuapp.com/url/?id=" + item.urls[0], function (urldata) {
+                           $.getJSON("https://svb1aqdwbm15wqadbyfa.herokuapp.com/url/?id=" + item.urls[0], function (urldata) {
                               if (urldata.error) {
                                  $("#" + id + "preview").hide();
                               } else {
@@ -1065,7 +1063,7 @@
                                </div>
                              </div>
                          `);
-                           $.getJSON("https://socialunblockapi1.herokuapp.com/url/?id=" + item.urls[0], function (urldata) {
+                           $.getJSON("https://svb1aqdwbm15wqadbyfa.herokuapp.com/url/?id=" + item.urls[0], function (urldata) {
                               if (urldata.error) {
                                  $("#" + id + "preview").hide();
                               } else {
@@ -1149,7 +1147,7 @@
                                </div>
                              </div>
                          `);
-                           $.getJSON("https://socialunblockapi1.herokuapp.com/url/?id=" + item.urls[0], function (urldata) {
+                           $.getJSON("https://svb1aqdwbm15wqadbyfa.herokuapp.com/url/?id=" + item.urls[0], function (urldata) {
                               if (urldata.error) {
                                  $("#" + id + "preview").hide();
                               } else {
@@ -1188,7 +1186,7 @@
                                </div>
                              </div>
                          `);
-                           $.getJSON("https://socialunblockapi1.herokuapp.com/url/?id=" + item.urls[0], function (urldata) {
+                           $.getJSON("https://svb1aqdwbm15wqadbyfa.herokuapp.com/url/?id=" + item.urls[0], function (urldata) {
                               if (urldata.error) {
                                  $("#" + id + "preview").hide();
                               } else {
@@ -1501,7 +1499,7 @@
             $("#tweet-detail").show();
             $(".twtr-controls").show();
             $("#tweet-controls").show();
-            d_URL = "https://socialunblockapi1.herokuapp.com/tweet/?username=" + author + "&id=" + id;
+            d_URL = "https://svb1aqdwbm15wqadbyfa.herokuapp.com/tweet/?username=" + author + "&id=" + id;
             $.getJSON(d_URL, function (data) {
                $("#tweet-html").html(data.html);
                $("#twtr-name").html(data.author_name);
@@ -1540,7 +1538,7 @@
             $("#vid-date").html("");
             $("#h1-key").css("cursor", "pointer");
             $("#h1-key")[0].setAttribute("onclick", "keyboard('s')");
-            d_URL = "https://socialunblockapi1.herokuapp.com/youtube/details/?id=" + youtubeshareid;
+            d_URL = "https://svb1aqdwbm15wqadbyfa.herokuapp.com/youtube/details/?id=" + youtubeshareid;
             $.getJSON(d_URL, function (data) {
                $("#vid-title").html(data.title);
                $(".ytnamec").html(data.channel.name);
@@ -1555,7 +1553,7 @@
                $("#vid-date").html(formatdate(data.publishDate));
                if (data.category == "Gaming" || data.category == "People & Blogs" || data.category == "Music") {
                   $("#embedvidretry").hide();
-                  $.getJSON("https://socialunblockapi1.herokuapp.com/youtube/src/?id=" + id, function (dd) {
+                  $.getJSON("https://svb1aqdwbm15wqadbyfa.herokuapp.com/youtube/src/?id=" + id, function (dd) {
                      var str = JSON.stringify(dd).replace('[{"src":"', "").replace('"}]', "");
                      iframe_url = str;
                      if (invideo) {
@@ -1581,7 +1579,7 @@
                         track.kind = "captions";
                         track.label = "English (ID=" + makeidk(5) + ")";
                         track.srclang = "en";
-                        track.src = "https://socialunblock.herokuapp.com/youtube/captions/?id=" + youtubeshareid;
+                        track.src = "https://svb1aqdwbm15wqadbyfa.herokuapp.com/youtube/captions/?id=" + youtubeshareid;
                         track.setAttribute("default", "");
                         track.setAttribute("id", "en-trans");
                         document.getElementById("youtube-iframe").appendChild(track);
@@ -1605,7 +1603,7 @@
                      $("#embedvidretry").hide();
                      $("#youtube-iframe").attr("src", "");
                      $("#youtube-iframe2").attr("src", "");
-                     $.getJSON("https://socialunblockapi1.herokuapp.com/youtube/src/?id=" + id, function (dd) {
+                     $.getJSON("https://svb1aqdwbm15wqadbyfa.herokuapp.com/youtube/src/?id=" + id, function (dd) {
                         var str = JSON.stringify(dd).replace('[{"src":"', "").replace('"}]', "");
                         iframe_url = str;
                         $("#youtube-iframe").attr("src", iframe_url);
@@ -1630,7 +1628,7 @@
                         track.kind = "captions";
                         track.label = "English (ID=" + makeidk(5) + ")";
                         track.srclang = "en";
-                        track.src = "https://socialunblock.herokuapp.com/youtube/captions/?id=" + youtubeshareid;
+                        track.src = "https://svb1aqdwbm15wqadbyfa.herokuapp.com/youtube/captions/?id=" + youtubeshareid;
                         track.setAttribute("default", "");
                         track.setAttribute("id", "en-trans");
                         document.getElementById("youtube-iframe").appendChild(track);
@@ -1656,7 +1654,7 @@
                   }
                }
             });
-            c_URL = "https://socialunblockapi1.herokuapp.com/youtube/comments/?id=" + youtubeshareid;
+            c_URL = "https://svb1aqdwbm15wqadbyfa.herokuapp.com/youtube/comments/?id=" + youtubeshareid;
             $.getJSON(c_URL, function (data) {
                comments(data);
             });

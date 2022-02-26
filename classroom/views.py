@@ -2,31 +2,26 @@ from django.http import JsonResponse
 from django.views.decorators.cache import cache_page, never_cache
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import WebVTTFormatter
+from django.views.decorators.clickjacking import xframe_options_exempt
 from django.http import HttpResponse
 from youtubesearchpython import *
 from django.shortcuts import redirect
 from django.shortcuts import render
 from bs4 import BeautifulSoup
-import vimeo
 import requests
 import pytube
 import json
 import twint
 
 
-v = vimeo.VimeoClient(
-    token='e33822544fd675d2f15b953a05111009',
-    key='d6f25ff10f9e140a827782b649ed145b0ce9b48b',
-    secret='LCsvT3FhVvz9EQiV2n4FAStq/21QbufTDC3rxGLzxQnyNsFB38KaAAXMNOXh7dEav76T2GYof6Sp3zLJn45mVScpPYp8QFwDe3RkuwSlHSzNydouN+DNDokul/kRpyCI'
-)
-
-
+@xframe_options_exempt
 @never_cache
 def YoutubeSearchJSON(request):
     if request.method == 'GET':
         return render(request, 'classroom/index.html')
 
 
+@xframe_options_exempt
 @cache_page(60 * 60 * 6)
 def YoutubeAdvancedSearchJSON(request):
     if request.method == 'GET':
@@ -53,12 +48,14 @@ def YoutubeAdvancedSearchJSON(request):
             raise Exception('Error')
 
 
+@xframe_options_exempt
 @never_cache
 def CacheBuster(request):
     if request.method == 'GET':
         return JsonResponse([{'Cache Buster': 'Yes'}], safe=False)
 
 
+@xframe_options_exempt
 @never_cache
 def YoutubeGetVideoSRC(request):
     if request.method == 'GET':
@@ -79,6 +76,7 @@ def YoutubeGetVideoSRC(request):
             raise Exception('Error')
 
 
+@xframe_options_exempt
 @cache_page(60 * 60 * 24 * 30)
 def YoutubeGetVideoTrack(request):
     if request.method == 'GET':
@@ -100,6 +98,7 @@ Loading...
             return JsonResponse([{'Error': 'No Query'}], safe=False)
 
 
+@xframe_options_exempt
 @cache_page(60 * 60 * 24 * 7)
 def GoogleSearchAPI(request):
     if request.method == 'GET':
@@ -121,6 +120,7 @@ def GoogleSearchAPI(request):
             raise Exception('Error')
 
 
+@xframe_options_exempt
 @cache_page(60 * 60 * 6)
 def TwitterDetailJSON(request):
     if request.method == 'GET':
@@ -139,6 +139,7 @@ def TwitterDetailJSON(request):
             raise Exception('Error')
 
 
+@xframe_options_exempt
 @cache_page(60 * 60 * 6)
 def YoutubeVideoDetailJSON(request):
     if request.method == 'GET':
@@ -166,33 +167,7 @@ def YoutubeVideoDetailJSON(request):
             raise Exception('Error')
 
 
-@cache_page(60 * 60 * 6)
-def YoutubeUserVideosDetailJSON(request):
-    if request.method == 'GET':
-        if 'AcRP2W3NHNmEoQgzd9CN' in request.headers:
-            if request.headers['AcRP2W3NHNmEoQgzd9CN'] == "seuMBIbvc33s4vKchgGY":
-                youtube_id = request.GET.get('id')
-                if youtube_id:
-                    if request.GET.get('minify'):
-                        try:
-                            videoInfo = Playlist(playlist_from_channel_id(youtube_id))
-                            return JsonResponse(videoInfo.videos, safe=False, json_dumps_params={'indent': 2})
-                        except:
-                            return JsonResponse([{'Error': 'No Comments'}], safe=False)
-                    else:
-                        try:
-                            videoInfo = Playlist(playlist_from_channel_id(youtube_id))
-                            return JsonResponse(videoInfo.videos, safe=False)
-                        except:
-                            return JsonResponse([{'Error': 'No Comments'}], safe=False)
-                else:
-                    return JsonResponse([{'Error': 'No Query'}], safe=False)
-            else:
-                raise Exception('Error')
-        else:
-            raise Exception('Error')
-
-
+@xframe_options_exempt
 @cache_page(60 * 60 * 24 * 14)
 def YoutubeCommentsSearchJSON(request):
     if request.method == 'GET':
@@ -220,66 +195,7 @@ def YoutubeCommentsSearchJSON(request):
             raise Exception('Error')
 
 
-@cache_page(60 * 60 * 6)
-def VimeoSearchJSON(request):
-    if request.method == 'GET':
-        if 'AcRP2W3NHNmEoQgzd9CN' in request.headers:
-            if request.headers['AcRP2W3NHNmEoQgzd9CN'] == "seuMBIbvc33s4vKchgGY":
-                query = request.GET.get('q')
-                limit = request.GET.get('num')
-                if query:
-                    if request.GET.get('minify'):
-                        if limit:
-                            search = v.get('/videos?page=1&per_page=' + limit + '&query=' + query + '&sort=likes')
-                            return JsonResponse(search.json(), safe=False, json_dumps_params={'indent': 2})
-                        else:
-                            search = v.get('/videos?page=1&per_page=10&query=' + query + '&sort=likes')
-                            return JsonResponse(search.json(), safe=False, json_dumps_params={'indent': 2})
-                    else:
-                        if limit:
-                            search = v.get('/videos?page=1&per_page=' + limit + '&query=' + query + '&sort=likes')
-                            return JsonResponse(search.json(), safe=False)
-                        else:
-                            search = v.get('/videos?page=1&per_page=10&query=' + query + '&sort=likes')
-                            return JsonResponse(search.json(), safe=False)
-                else:
-                    return JsonResponse([{'Error': 'No Query'}], safe=False)
-            else:
-                raise Exception('Error')
-        else:
-            raise Exception('Error')
-
-
-@cache_page(60 * 60 * 6)
-def DailyMotionSearchJSON(request):
-    if request.method == 'GET':
-        if 'AcRP2W3NHNmEoQgzd9CN' in request.headers:
-            if request.headers['AcRP2W3NHNmEoQgzd9CN'] == "seuMBIbvc33s4vKchgGY":
-                query = request.GET.get('q')
-                limit = request.GET.get('num')
-                if query:
-                    if request.GET.get('minify'):
-                        if limit:
-                            search = requests.get('https://api.dailymotion.com/videos?fields=id,embed_url,thumbnail_url,title,owner.screenname,duration&limit=' + limit + '&search=' + query)
-                            return JsonResponse(search.json(), safe=False, json_dumps_params={'indent': 2})
-                        else:
-                            search = requests.get('https://api.dailymotion.com/videos?fields=id,embed_url,thumbnail_url,title,owner.screenname,duration&limit=50&search=' + query)
-                            return JsonResponse(search.json(), safe=False, json_dumps_params={'indent': 2})
-                    else:
-                        if limit:
-                            search = requests.get('https://api.dailymotion.com/videos?fields=id,embed_url,thumbnail_url,title,owner.screenname,duration&limit=' + limit + '&search=' + query)
-                            return JsonResponse(search.json(), safe=False)
-                        else:
-                            search = requests.get('https://api.dailymotion.com/videos?fields=id,embed_url,thumbnail_url,title,owner.screenname,duration&limit=50&search=' + query)
-                            return JsonResponse(search.json(), safe=False)
-                else:
-                    return JsonResponse([{'Error': 'No Query'}], safe=False)
-            else:
-                raise Exception('Error')
-        else:
-            raise Exception('Error')
-
-
+@xframe_options_exempt
 @cache_page(60 * 60 * 24)
 def TwitterSearchJSON(request):
     if request.method == 'GET':
@@ -304,6 +220,7 @@ def TwitterSearchJSON(request):
             raise Exception('Error')
 
 
+@xframe_options_exempt
 @cache_page(60 * 60 * 24 * 30)
 def URLJSON(request):
     if request.method == 'GET':
