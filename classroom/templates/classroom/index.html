@@ -1436,7 +1436,7 @@
             searchParams.set("id", id);
             var newRelativePathQuery = window.location.pathname + "?" + searchParams.toString();
             history.pushState(null, "", newRelativePathQuery);
-            copyTextToClipboard('https://socialunblock.vercel.app/?user=" + user + "&id=" + id);
+            copyTextToClipboard("https://socialunblock.vercel.app/?user=" + user + "&id=" + id);
             Toast.fire({
                icon: "success",
                title: "Copied Share URL To Clipboard",
@@ -1448,7 +1448,7 @@
             searchParams.set("video", id);
             var newRelativePathQuery = window.location.pathname + "?" + searchParams.toString();
             history.pushState(null, "", newRelativePathQuery);
-            copyTextToClipboard('https://socialunblock.vercel.app/?video=" + id);
+            copyTextToClipboard("https://socialunblock.vercel.app/?video=" + id);
             Toast.fire({
                icon: "success",
                title: "Copied Share URL To Clipboard",
